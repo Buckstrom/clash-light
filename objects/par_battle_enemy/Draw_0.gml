@@ -26,10 +26,14 @@ if (!is_undefined(ds_queue_head(trapQueue))) {
 for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 	if (ds_map_exists(debuffs, mWEP.debuffNames[| i])) {
 		_debuffList += mWEP.debuffNames[| i]
+		if (mWEP.debuffNames[| i] == "lured") {
+			_debuffList += ": " + string(100 * debuffs[? "lured"][debuff_properties.factor]) + "%";
+		}
 		if (_n++ < _debuffAmt) {
 			_debuffList += "\n"
 		}
 	}
 }
 draw_set_valign(fa_middle)
+draw_set_font(fnt_blocks)
 draw_text(x, y, _debuffList);

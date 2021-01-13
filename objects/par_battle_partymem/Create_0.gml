@@ -11,6 +11,7 @@ each column represents a weapon, each row determines its stats:
 2 = dmgpenalty
 3 = special
 */
-ownedtracks = ds_list_create();
+//ownedtracks: each key represents a weapon track; stores the prestige level value
+ownedtracks = ds_map_create();
 
 isHovering = false;

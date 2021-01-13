@@ -2,5 +2,5 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function wep_throw(attack){
 	useLureKB = true;
-	damage_target(attack, 0.2)
+	damage_target(attack, comboBase)
 }

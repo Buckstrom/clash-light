@@ -1,4 +1,4 @@
-var _trackCount = ds_list_size(mCURRENT_MEM.ownedtracks)
+var _trackCount = ds_map_size(mCURRENT_MEM.ownedtracks)
 var _totalTracks = ds_list_size(mWEP.wTracks)
 // GUI
 draw_set_color(c_purple)

@@ -25,7 +25,7 @@ if (_calcBonus) {
 		var _enemy = mBATTLE.reg_enemy[| i]
 		//deal combo damage
 		if (_enemy.comboCount > 1) {
-			_enemy.currentHP -= ceil((_enemy.damageSum) * _enemy.comboMultiplier)
+			_enemy.currentHP -= ceil((_enemy.damageSum) * comboScaled)
 		}
 		//deal lure damage
 		if (useLureKB && ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
@@ -36,6 +36,7 @@ if (_calcBonus) {
 		//reset per-track damage intake
 		resetCombo(_enemy);
 	}
+	comboScaled = comboBase;
 }
 //Loop
 alarm[0] = battleTick;

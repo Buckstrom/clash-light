@@ -66,7 +66,7 @@ for (i = 0; i < temp_AmtParty; ++i) {
 		initialize_track(_addToParty, _track);
 		add_weapon(_addToParty, _track, 7, 1)
 	}
-	refresh_tracks(_addToParty);
+	refresh_tracks(_addToParty, 0);
 	//register party member
 	reg_party[| i] = _addToParty;
 }
