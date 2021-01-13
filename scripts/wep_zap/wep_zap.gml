@@ -39,7 +39,7 @@ function wep_zap(attack){
 				}
 				//check if soaked and for jumped debuff
 				_enemy = ds_list_find_value(mBATTLE.reg_enemy, i)
-				if (!ds_map_exists(_enemy.debuffs, "soaked") || ds_map_exists(_enemy.debuffs, "jumped")) {
+				if (!(_enemy.currentHP > 0) || !ds_map_exists(_enemy.debuffs, "soaked") || ds_map_exists(_enemy.debuffs, "jumped")) {
 					continue;
 				}
 				//once valid target is found, apply jump falloff and damage target
@@ -55,9 +55,9 @@ function wep_zap(attack){
 					if (i < 0 || i > ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
 						continue;
 					}
-					//check if soaked and for jumped debuff
+					//check if alive, soaked and for jumped debuff
 					_enemy = ds_list_find_value(mBATTLE.reg_enemy, i)
-					if (!ds_map_exists(_enemy.debuffs, "soaked") || ds_map_exists(_enemy.debuffs, "jumped")) {
+					if (!(_enemy.currentHP > 0) || !ds_map_exists(_enemy.debuffs, "soaked") || ds_map_exists(_enemy.debuffs, "jumped")) {
 						continue;
 					}
 					//once valid target is found, apply jump falloff and damage target
