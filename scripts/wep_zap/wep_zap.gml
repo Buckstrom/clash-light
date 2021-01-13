@@ -34,7 +34,7 @@ function wep_zap(attack){
 			//find next jump candidate within range to the left
 			for (var i = _currentTarget; i >= _currentTarget - _jumpSpaces; --i) {
 				//go to next check if target is out of range, original target, or already jumped
-				if (i < 0 || i > ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
+				if (i < 0 || i >= ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
 					continue;
 				}
 				//check if soaked and for jumped debuff
@@ -52,7 +52,7 @@ function wep_zap(attack){
 			if (!_jumpValid) {
 				for (var i = _currentTarget; i <= _currentTarget + _jumpSpaces; ++i) {
 					//go to next check if target is out of range, original target, or already jumped
-					if (i < 0 || i > ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
+					if (i < 0 || i >= ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
 						continue;
 					}
 					//check if alive, soaked and for jumped debuff

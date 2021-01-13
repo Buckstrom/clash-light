@@ -22,11 +22,11 @@ switch (ds_priority_size(attackQueue)) {
 }
 if (_calcBonus) {
 	for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
+		var _enemy = mBATTLE.reg_enemy[| i]
 		//clear double traps
 		if (ds_queue_size(_enemy.trapQueue) > 1) {
 			ds_queue_clear(_enemy.trapQueue);
 		}
-		var _enemy = mBATTLE.reg_enemy[| i]
 		//deal combo damage
 		if (_enemy.comboCount > 1) {
 			_enemy.currentHP -= ceil((_enemy.damageSum) * comboScaled[i])
