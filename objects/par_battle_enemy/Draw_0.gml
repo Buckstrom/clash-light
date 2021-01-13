@@ -1,3 +1,7 @@
+//dead appearance
+if !(currentHP > 0) {
+	draw_set_alpha(0.5)
+}
 draw_set_color(c_white)
 /*if (mBATTLE.current_partymem = reg_space) {
 	draw_rectangle(mAPPEAR_COORDS, false)
@@ -37,3 +41,4 @@ for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 draw_set_valign(fa_middle)
 draw_set_font(fnt_blocks)
 draw_text(x, y, _debuffList);
+draw_set_alpha(1)
