@@ -6,6 +6,14 @@ function wep_drop(attack){
 	if (ds_map_exists(_enemy.debuffs, "lured")) {
 		return;
 	}
-	comboScaled += 0.15
-	damage_target(attack, comboScaled)
+	comboScaled[attack.target] += 0.10;
+	switch (check_for_prestige(attack.attacker, attack.trackname)) {
+		default:
+		break;
+		//Lv 1 Prestige: +5% combo damage scaling (accuracy can wait :-) )
+		case 1:
+		comboScaled[attack.target] += 0.05
+		break;
+	}
+	damage_target(attack, comboScaled[attack.target])
 }

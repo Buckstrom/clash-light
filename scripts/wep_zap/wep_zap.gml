@@ -4,7 +4,7 @@ function wep_zap(attack){
 	useLureKB = false;
 	var _jumpFactor = 3;
 	var _jumpSpaces = 2;
-	var _jumpFalloff = 0.5;
+	var _jumpFalloff = 0.75;
 	var _jumpAmount = 0;
 	var _jumpMax = 3;
 	var _jumpValid = false;
@@ -14,6 +14,14 @@ function wep_zap(attack){
 	var _enemy = ds_list_find_value(mBATTLE.reg_enemy, attack.target)
 	if (is_undefined(_enemy)) {
 		return;
+	}
+	switch (check_for_prestige(attack.attacker, attack.trackname)) {
+		default:
+		break;
+		//Lv 1 Prestige: 50% damage falloff (down from 66%)
+		case 1:
+		_jumpFalloff = 0.5;
+		break;
 	}
 	//check enemy soak status
 	if (ds_map_exists(_enemy.debuffs, "soaked")) {
@@ -60,7 +68,7 @@ function wep_zap(attack){
 				}
 			}
 			if (_jumpValid) {
-				attack.damage = _baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount));
+				attack.damage = ceil(_baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount)));
 				attack.target = i;
 				_currentTarget = i;
 				damage_single(attack, 0);

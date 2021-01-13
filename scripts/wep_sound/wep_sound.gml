@@ -2,5 +2,20 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function wep_sound(attack){
 	useLureKB = false;
+	switch (check_for_prestige(attack.attacker, attack.trackname)) {
+		default:
+		break;
+		//Lv 1 Prestige: Highest Level Enemy Level * 0.5 bonus damage
+		case 1:
+		var _highestLv = 0;
+		for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
+			var _checkLv = mBATTLE.reg_enemy[| i].level;
+			if (_highestLv < _checkLv) {
+				_highestLv = _checkLv;
+			}
+		}
+		attack.damage = ceil((_highestLv * 0.5) + attack.damage)
+		break;
+	}
 	damage_target(attack, comboBase)
 }

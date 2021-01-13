@@ -2,5 +2,13 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function wep_trap(attack){
 	var _enemy = mBATTLE.reg_enemy[| attack.target]
+	switch (check_for_prestige(attack.attacker, attack.trackname)) {
+		default:
+		break;
+		//Lv 1 Prestige: Enemy level * 3 damage bonus
+		case 1:
+		attack.damage = ceil(attack.damage + (_enemy.level * 3))
+		break;
+	}
 	ds_queue_enqueue(_enemy.trapQueue, attack)
 }

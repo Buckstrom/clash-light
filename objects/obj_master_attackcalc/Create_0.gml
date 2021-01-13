@@ -28,4 +28,5 @@ for (var i = 0; i < ds_list_size(mWEP.trackNames); ++i) {
 }
 ds_list_destroy(_choices);
 //begin attack sequence
+comboScaled = array_create(ds_list_size(mBATTLE.reg_enemy), comboBase)
 alarm[0] = battleTick
