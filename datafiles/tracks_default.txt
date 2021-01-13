@@ -1,0 +1,7 @@
+trap
+lure
+sound
+squirt
+zap
+throw
+drop
