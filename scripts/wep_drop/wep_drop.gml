@@ -15,7 +15,7 @@ function wep_drop(attack){
 		//Lv 1 Prestige: +5% combo damage scaling (accuracy can wait :-) )
 		case 1:
 		if (_enemy.comboCount > 0) {
-			comboScaled[attack.target] += 0.10;
+			comboScaled[attack.target] += 0.05;
 		}
 		break;
 	}
