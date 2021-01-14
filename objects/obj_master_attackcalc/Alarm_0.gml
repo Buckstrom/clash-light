@@ -1,10 +1,4 @@
 /// @description Perform next attack
-++attackNum
-if (!(attackNum < attackCount)) {
-	mBATTLE.currentState = battleState.e_attack
-	instance_destroy(self)
-	return;
-}
 var _activeAttack = ds_priority_delete_min(attackQueue)
 //perform attack
 script_execute(mWEP.trackScripts[? _activeAttack.trackname], _activeAttack);
@@ -31,16 +25,29 @@ if (_calcBonus) {
 		if (_enemy.comboCount > 1) {
 			_enemy.currentHP -= ceil((_enemy.damageSum) * comboScaled[i])
 		}
-		//deal lure damage
-		if (useLureKB && ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
-			var _lureFactor = array_get(ds_map_find_value(_enemy.debuffs, "lured"), debuff_properties.factor);
+		//deal lure damage; unlures after taking damage regardless of bonus
+		if (ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
+			var _lureFactor = useLureKB * array_get(ds_map_find_value(_enemy.debuffs, "lured"), debuff_properties.factor);
 			_enemy.currentHP -= ceil((_enemy.damageSum) * _lureFactor)
 			ds_map_delete(_enemy.debuffs, "lured")
 		}
 		//reset per-track damage intake
 		resetCombo(_enemy);
 		comboScaled[i] = comboBase;
+		//prepare enemy clear sequence if dead
+		if (!(_enemy.currentHP > 0) && !mBATTLE.clearDead) {
+			mBATTLE.clearDead = true;
+		}
 	}
 }
+++attackNum
+//if all attacks are finished resolving, transition to enemy attack and decrement debuffs
+if (!(attackNum < attackCount)) {
+	mBATTLE.currentState = battleState.e_attack
+	decrement_debuffs_row();
+	instance_destroy(self)
+}
 //Loop
-alarm[0] = battleTick;
+else {
+	alarm[0] = battleTick;
+}

@@ -84,7 +84,6 @@ if (mouse_check_button_pressed(mb_left)) {
 		}
 		break;
 		case battleState.e_attack:
-		inst_calc = -1;
 		currentState = battleState.p_choice;
 		break;
 	}
@@ -110,6 +109,50 @@ if (mouse_check_button_pressed(mb_right)) {
 	}
 }
 
-if (currentState = battleState.p_attack && inst_calc = -1) {
-	inst_calc = instance_create_layer(0,0,self.layer,obj_master_attackcalc)
+if (currentState != battleState.p_attack && inst_calc != -1) {
+		inst_calc = -1;
+}
+
+switch (currentState) {
+	case battleState.p_choice:
+	//clear dead enemies
+	if (clearDead) {
+		var _oldEnemyRow = ds_list_size(reg_enemy);
+		var _newEnemyRow = _oldEnemyRow;
+		for (var i = 0; i < _oldEnemyRow;) {
+			//check if enemy exists
+			var _clearEnemy = is_undefined(reg_enemy[| i])
+			//check enemy if their HP has depleted; destroy enemy if true
+			if (!_clearEnemy) {
+				if !(reg_enemy[| i].currentHP > 0) {
+					instance_destroy(reg_enemy[| i]);
+					_clearEnemy = true;
+				}
+			}
+			switch (_clearEnemy) {
+				case true:
+				ds_list_delete(reg_enemy, i);
+				--_newEnemyRow
+				break;
+				case false:
+				//check next enemy in the row
+				++i
+				break;
+			}
+			//if checking beyond range, end loop
+			if (i = _newEnemyRow) {
+				break;
+			}
+		}
+		refresh_enemy_row();
+		clearDead = false;
+	}
+	break;
+	case battleState.p_attack:
+	if (inst_calc = -1) {
+		inst_calc = instance_create_layer(0,0,self.layer,obj_master_attackcalc)
+	}
+	break;
+	default:
+	break;
 }
