@@ -17,7 +17,14 @@ else */switch (isHovering) {
 draw_set_font(fnt_blocks)
 draw_set_halign(fa_center)
 draw_set_valign(fa_bottom)
-draw_text_ext(x, y - (appear_height / 2), "Level " + string(level) + "\n" + string(currentHP) + " / " + string(maxHP), font_get_size(fnt_blocks) * 1.5, view_wport[0])
+//draw enemy details below image
+var _tagText = "Level " + string(level);
+if (isExe) {
+	_tagText += ".exe"
+}
+_tagText += "\n" + string(currentHP) + " / " + string(maxHP);
+draw_text_ext(x, y - (appear_height / 2), _tagText, font_get_size(fnt_blocks) * 1.5, view_wport[0])
+//draw enemy name
 draw_set_valign(fa_top)
 draw_text(x, y + (appear_height / 2), given_name)
 //draw debuff list in order

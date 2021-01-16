@@ -73,13 +73,14 @@ for (i = 0; i < temp_AmtParty; ++i) {
 //temp enemy filler
 for (i = 0; i < temp_AmtEnemy; ++i) {
 	//create enemy
-	var _addEnemy = instance_create_layer(view_wport[0] * ((2 + i) / (3 + temp_AmtEnemy)), 92, "Instances", par_battle_enemy)
+	var _addEnemy = instance_create_layer(0, 92, "Instances", par_battle_enemy)
 	//assign name and place
 	_addEnemy.given_name = "Suit";
 	_addEnemy.reg_space = i;
 	//register enemy
 	reg_enemy[| i] = _addEnemy;
 }
+refresh_enemy_row()
 //temp tracks
 /*
 initialize_track(reg_party[| 0], "drop", 7)

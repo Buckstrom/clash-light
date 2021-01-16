@@ -117,33 +117,7 @@ switch (currentState) {
 	case battleState.p_choice:
 	//clear dead enemies
 	if (clearDead) {
-		var _oldEnemyRow = ds_list_size(reg_enemy);
-		var _newEnemyRow = _oldEnemyRow;
-		for (var i = 0; i < _oldEnemyRow;) {
-			//check if enemy exists
-			var _clearEnemy = is_undefined(reg_enemy[| i])
-			//check enemy if their HP has depleted; destroy enemy if true
-			if (!_clearEnemy) {
-				if !(reg_enemy[| i].currentHP > 0) {
-					instance_destroy(reg_enemy[| i]);
-					_clearEnemy = true;
-				}
-			}
-			switch (_clearEnemy) {
-				case true:
-				ds_list_delete(reg_enemy, i);
-				--_newEnemyRow
-				break;
-				case false:
-				//check next enemy in the row
-				++i
-				break;
-			}
-			//if checking beyond range, end loop
-			if (i = _newEnemyRow) {
-				break;
-			}
-		}
+		remove_dead_enemy_row();
 		refresh_enemy_row();
 		clearDead = false;
 	}

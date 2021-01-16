@@ -1,7 +1,7 @@
 {
-  "option_windows_display_name": "ClashLight v0.0.2",
+  "option_windows_display_name": "ClashLight",
   "option_windows_executable_name": "${project_name}.exe",
-  "option_windows_version": "0.0.0.2",
+  "option_windows_version": "0.0.0.4",
   "option_windows_company_info": "BKST",
   "option_windows_product_info": "ClashLight",
   "option_windows_copyright_info": "",

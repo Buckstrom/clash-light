@@ -5,3 +5,32 @@ function refresh_enemy_row(){
 			mBATTLE.reg_enemy[| i].x = view_wport[0] * ((2 + i) / (3 + ds_list_size(mBATTLE.reg_enemy)))
 	}
 }
+function remove_dead_enemy_row(){
+	var _oldEnemyRow = ds_list_size(mBATTLE.reg_enemy);
+	var _newEnemyRow = _oldEnemyRow;
+	for (var i = 0; i < _oldEnemyRow;) {
+		//check if enemy exists
+		var _clearEnemy = is_undefined(mBATTLE.reg_enemy[| i])
+		//check enemy if their HP has depleted; destroy enemy if true
+		if (!_clearEnemy) {
+			if !(mBATTLE.reg_enemy[| i].currentHP > 0) {
+				instance_destroy(mBATTLE.reg_enemy[| i]);
+				_clearEnemy = true;
+			}
+		}
+		switch (_clearEnemy) {
+			case true:
+			ds_list_delete(mBATTLE.reg_enemy, i);
+			--_newEnemyRow
+			break;
+			case false:
+			//check next enemy in the row
+			++i
+			break;
+		}
+		//if checking beyond range, end loop
+		if (i = _newEnemyRow) {
+			break;
+		}
+	}
+}
