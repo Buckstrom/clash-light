@@ -7,13 +7,7 @@ function wep_squirt(attack, time){
 	damage_target(attack, comboBase);
 	//animate direct attack
 	alarm[0] += time;
-	var _anim = instance_create_layer(0,0,self.layer,anim_beam)
-	_anim.beamStart = attack.attacker;
-	_anim.beamDest = mBATTLE.reg_enemy[| attack.target]
-	_anim.beamColor = c_aqua;
-	_anim.beamTime = time / 2;
-	_anim.alarm[0] = time / 2;
-	_anim.beamHold = time / 2;
+	anim_beam(attack.attacker, mBATTLE.reg_enemy[| attack.target], c_aqua, time)
 	//prestige check
 	switch (check_for_prestige(attack.attacker, attack.trackname)) {
 		default:

@@ -1,6 +1,6 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function wep_zap(attack){
+function wep_zap(attack, time){
 	useLureKB = false;
 	useCombo = false;
 	var _jumpFactor = 3;
@@ -30,6 +30,9 @@ function wep_zap(attack){
 		attack.damage = _baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount));
 		damage_single(attack, 0);
 		++_jumpAmount;
+		//animate direct attack
+		alarm[0] += time;
+		anim_beam(attack.attacker, _enemy, c_yellow, attackAnimTime)
 		//perform jumps up to maximum amount
 		for (var j = _jumpAmount; j < _jumpMax; ++j) {
 			//find next jump candidate within range to the left
@@ -71,9 +74,13 @@ function wep_zap(attack){
 			if (_jumpValid) {
 				attack.damage = ceil(_baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount)));
 				attack.target = i;
-				_currentTarget = i;
 				damage_single(attack, 0);
 				debuff_single(attack.target, "jumped", 0, 0, 0);
+				//animate jump
+				//alarm[0] += time;
+				//anim_beam(_currentTarget, attack.target, c_yellow, time);
+				//move to next jump
+				_currentTarget = i;
 				++_jumpAmount;
 				_jumpValid = false;
 			}
