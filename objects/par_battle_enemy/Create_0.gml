@@ -5,6 +5,8 @@ comboCount = 0;
 damageSum = 0;
 comboMultiplier = 0;
 trapQueue = ds_queue_create();
+damageValuesIn = ds_list_create();
+damageColorsIn = ds_list_create();
 
 isHovering = false;
 debuffs = ds_map_create();

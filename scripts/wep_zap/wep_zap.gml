@@ -2,6 +2,7 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function wep_zap(attack){
 	useLureKB = false;
+	useCombo = false;
 	var _jumpFactor = 3;
 	var _jumpSpaces = 2;
 	var _jumpFalloff = 0.75;

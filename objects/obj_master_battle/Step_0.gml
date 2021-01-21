@@ -85,6 +85,7 @@ if (mouse_check_button_pressed(mb_left)) {
 		break;
 		case battleState.e_attack:
 		currentState = battleState.p_choice;
+		reset_damage_display_row();
 		break;
 	}
 }

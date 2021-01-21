@@ -48,4 +48,11 @@ for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 draw_set_valign(fa_middle)
 draw_set_font(fnt_blocks)
 draw_text(x, y, _debuffList);
+//draw received damage
+var _damageLine = (y + (appear_height / 2)) + (font_get_size(fnt_blocks) * 2.5)
+for (var i = 0; i < ds_list_size(damageValuesIn); ++i) {
+	draw_set_color(damageColorsIn[| i]);
+	draw_text(x, _damageLine, "-" + string(damageValuesIn[| i]));
+	_damageLine += (font_get_size(fnt_blocks) * 1.5);
+}
 draw_set_alpha(1)

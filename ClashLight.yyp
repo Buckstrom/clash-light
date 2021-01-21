@@ -22,6 +22,7 @@
     {"id":{"name":"refresh_enemy_row","path":"scripts/refresh_enemy_row/refresh_enemy_row.yy",},"order":10,},
     {"id":{"name":"init","path":"rooms/init/init.yy",},"order":1,},
     {"id":{"name":"par_battle_partymem","path":"objects/par_battle_partymem/par_battle_partymem.yy",},"order":0,},
+    {"id":{"name":"anim_beam","path":"objects/anim_beam/anim_beam.yy",},"order":8,},
     {"id":{"name":"par_battle_enemy","path":"objects/par_battle_enemy/par_battle_enemy.yy",},"order":4,},
     {"id":{"name":"wep_throw","path":"scripts/wep_throw/wep_throw.yy",},"order":2,},
     {"id":{"name":"obj_exit_button","path":"objects/obj_exit_button/obj_exit_button.yy",},"order":7,},

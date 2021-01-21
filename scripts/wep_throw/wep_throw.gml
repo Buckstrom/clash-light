@@ -2,6 +2,7 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function wep_throw(attack){
 	useLureKB = true;
+	useCombo = true;
 	switch (check_for_prestige(attack.attacker, attack.trackname)) {
 		default:
 		break;

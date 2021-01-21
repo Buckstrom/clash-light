@@ -1,7 +1,7 @@
 /// @description Perform next attack
 var _activeAttack = ds_priority_delete_min(attackQueue)
 //perform attack
-script_execute(mWEP.trackScripts[? _activeAttack.trackname], _activeAttack);
+script_execute(mWEP.trackScripts[? _activeAttack.trackname], _activeAttack, attackAnimTime);
 //remove intent from partymem
 clear_target(_activeAttack.attacker);
 //check if the next weapon is a different track or if the current weapon is the last attack
@@ -22,13 +22,21 @@ if (_calcBonus) {
 			ds_queue_clear(_enemy.trapQueue);
 		}
 		//deal combo damage
-		if (_enemy.comboCount > 1) {
-			_enemy.currentHP -= ceil((_enemy.damageSum) * comboScaled[i])
+		if (_enemy.comboCount > 1 && useCombo) {
+			var _comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
+			_enemy.currentHP -= _comboDamage
+			ds_list_add(_enemy.damageValuesIn, _comboDamage);
+			ds_list_add(_enemy.damageColorsIn, c_yellow);
 		}
 		//deal lure damage; unlures after taking damage regardless of bonus
 		if (ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
-			var _lureFactor = useLureKB * array_get(ds_map_find_value(_enemy.debuffs, "lured"), debuff_properties.factor);
-			_enemy.currentHP -= ceil((_enemy.damageSum) * _lureFactor)
+			if (useLureKB) {
+				var _lureFactor = array_get(ds_map_find_value(_enemy.debuffs, "lured"), debuff_properties.factor);
+				var _knockbackDamage = ceil((_enemy.damageSum) * _lureFactor)
+				_enemy.currentHP -= _knockbackDamage;
+				ds_list_add(_enemy.damageValuesIn, _knockbackDamage);
+				ds_list_add(_enemy.damageColorsIn, c_orange);
+			}
 			ds_map_delete(_enemy.debuffs, "lured")
 		}
 		//reset per-track damage intake
@@ -49,5 +57,5 @@ if (!(attackNum < attackCount)) {
 }
 //Loop
 else {
-	alarm[0] = battleTick;
+	alarm[0] += battleTick;
 }

@@ -70,6 +70,8 @@ function array_debuff_properties(duration, factor, misc) {
 function takeDamage(enemy, damage) {
 	enemy.currentHP -= damage;
 	enemy.damageSum += damage;
+	ds_list_add(enemy.damageValuesIn, damage);
+	ds_list_add(enemy.damageColorsIn, c_red);
 }
 function checkTrap(enemy) {
 	//check for being lured into trap

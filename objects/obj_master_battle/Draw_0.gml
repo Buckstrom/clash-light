@@ -114,18 +114,20 @@ switch (currentState) {
 	case battleState.p_target:
 	draw_set_color(c_white)
 	draw_set_font(useFont)
-	draw_text(view_wport[0] / 2, view_hport[0] / 2, "Choose A Target\nPress M2 to Cancel")
+	draw_set_valign(fa_middle)
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Choose A Target\nPress M2 to Cancel")
 	break;
 	case battleState.p_attack:
 	draw_set_color(c_white)
 	draw_set_font(useFont)
 	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] / 2, "Attack phase; M1 to Jump To Next")
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Attack phase; M1 to Jump To Next")
 	break;
 	case battleState.e_attack:
 	draw_set_color(c_white)
 	draw_set_font(useFont)
-	draw_text(view_wport[0] / 2, view_hport[0] / 2, "Enemy attacks; not coded yet. Press M1 to Continue")
+	draw_set_valign(fa_middle)
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Enemy attacks; not coded yet. Press M1 to Continue")
 	break;
 }
 // debug

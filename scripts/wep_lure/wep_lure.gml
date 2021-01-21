@@ -1,7 +1,6 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function wep_lure(attack){
-	useLureKB = false;
 	switch (check_for_prestige(attack.attacker, attack.trackname)) {
 		default:
 		var _kbScaled = 0.5;
