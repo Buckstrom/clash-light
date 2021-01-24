@@ -21,5 +21,5 @@ draw_text_ext(x, y + (appear_height / 2), given_name + "\n" + string(currentHP) 
 if (choiceTarget != -1) {
 	draw_set_valign(fa_bottom)
 	draw_set_font(fnt_mini)
-	draw_text(x, y - (appear_height / 2) + 3, notate_target(choiceTarget));
+	draw_text(x, y - (appear_height / 2) + 3, notate_target(choiceTarget, check_for_prestige(self, choiceTrack)));
 }
