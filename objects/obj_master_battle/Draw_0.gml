@@ -55,7 +55,7 @@ switch (currentState) {
 			//set to track color
 			draw_set_color(_trackColor)
 			draw_rectangle(_trackHeader.x1, _trackHeader.y1, _trackHeader.x2, _trackHeader.y2, false)
-			for (var i = 0; i < ds_grid_width(_viewingMem.inventory[? _readTrack]); ++i){
+ 			for (var i = 0; i < ds_grid_width(_viewingMem.inventory[? _readTrack]); ++i){
 				//draw each weapon, quantity, and availability
 				var _button = {
 					x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + (i * button_width),
@@ -102,6 +102,24 @@ switch (currentState) {
 					draw_text(_button.x2, _button.y2 - (font_get_size(fnt_mini) / 2), ds_grid_get(_viewingMem.inventory[? _readTrack], i, 0));
 				}
 			}
+			//draw prestige toggle button
+			var _pres = {
+				x1 : 4 + ((view_wport[0]/2) - (_trackLength * (button_width / 2)) + (_trackLength * button_width)),
+				y1 : 4 + wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * t)),
+				x2 : -4 + (view_wport[0]/2) - (_trackLength * (button_width / 2)) + ((button_width / 2) + (_trackLength * button_width)),
+				y2 : -4 + wepgui_offset_y + ((view_hport[0]) * wepgui_margin) - (_totalTracks * (button_height / 2)) + (button_height / 2) + ((button_height * t)),
+			};
+			draw_set_color(c_black)
+			draw_roundrect(mPRES_COORDS, !_viewingMem.invPres[? _readTrack]);
+			if (_viewingMem.invPres[? _readTrack]) {
+				draw_sprite_ext(ico_pres, 0, mPRES_CENTER, 1, 1, 0, c_white, 1)
+			}
+			else {
+				draw_sprite_ext(ico_pres, 0, mPRES_CENTER, 1, 1, 0, c_black, 1);
+			}
+			if (point_in_rectangle(mouse_x, mouse_y, mPRES_COORDS) && mouse_check_button_pressed(mb_left)) {
+				_viewingMem.invPres[? _readTrack] = !_viewingMem.invPres[? _readTrack]
+			}
 		}
 	}
 	if (!hoveringWep) {
@@ -121,18 +139,26 @@ switch (currentState) {
 	draw_set_color(c_white)
 	draw_set_font(useFont)
 	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Attack phase; Please wait...")
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Attack Phase\nPlease wait...")
 	break;
 	case battleState.e_attack:
 	draw_set_color(c_white)
 	draw_set_font(useFont)
 	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Enemy attacks; not coded yet. Press M1 to Continue")
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Player Turn Over\nPress M1 to Continue")
 	break;
 }
 // debug
-draw_set_valign(fa_top)
+/*draw_set_valign(fa_top)
 draw_set_halign(fa_left)
 draw_set_color(c_white)
 draw_set_font(useFont)
 draw_text(0,0,string(currentState) + "\n" + mCURRENT_MEM.given_name + "\n" + wepString);
+*/
+draw_set_halign(fa_left)
+draw_set_color(c_white)
+draw_set_font(useFont)
+draw_set_valign(fa_top)
+draw_text(0,0, "Right-Click Party\nMember to Cancel\n\nShift-Click Enemy\nto Set Level\n(Add x to set to .Exe)")
+draw_set_valign(fa_bottom)
+draw_text(0, view_hport[0],wepString);

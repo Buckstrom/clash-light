@@ -1,6 +1,7 @@
 #macro mAPPEAR_COORDS x - (appear_width / 2), y - (appear_height / 2), x + (appear_width / 2), y + (appear_height / 2)
 
 inventory = ds_map_create();
+invPres = ds_map_create();
 reg_space = 0;
 /* inventory:
 each key is named after a track and contains this party member's track data in a DS grid

@@ -5,6 +5,7 @@
     {"id":{"name":"obj_master_weapons","path":"objects/obj_master_weapons/obj_master_weapons.yy",},"order":3,},
     {"id":{"name":"obj_master_attackcalc","path":"objects/obj_master_attackcalc/obj_master_attackcalc.yy",},"order":5,},
     {"id":{"name":"fx_ray","path":"objects/fx_ray/fx_ray.yy",},"order":10,},
+    {"id":{"name":"ico_pres","path":"sprites/ico_pres/ico_pres.yy",},"order":0,},
     {"id":{"name":"initialize_track","path":"scripts/initialize_track/initialize_track.yy",},"order":1,},
     {"id":{"name":"tl_lure","path":"timelines/tl_lure/tl_lure.yy",},"order":6,},
     {"id":{"name":"draw_pie","path":"scripts/draw_pie/draw_pie.yy",},"order":0,},

@@ -2,7 +2,9 @@
 #macro mCURRENT_MEM reg_party[| current_partymem]
 #macro mHOVERING_MEM reg_party[| hovering_partymem]
 #macro mBUTTON_COORDS _button.x1, _button.y1, _button.x2, _button.y2
+#macro mPRES_COORDS _pres.x1, _pres.y1, _pres.x2, _pres.y2
 #macro mBUTTON_CENTER mean(_button.x1, _button.x2), mean(_button.y1, _button.y2)
+#macro mPRES_CENTER mean(_pres.x1, _pres.x2), mean(_pres.y1, _pres.y2)
 #macro mWEPBACK_COORDS _wepBack.x1, _wepBack.y1, _wepBack.x2, _wepBack.y2
 #macro mWEPBACK_CENTER mean(_wepBack.x1, _wepBack.x2), mean(_wepBack.y1, _wepBack.y2)
 #macro mENEMYBACK_COORDS _enemyBack.x1, _enemyBack.y1, _enemyBack.x2, _enemyBack.y2
@@ -63,7 +65,7 @@ for (i = 0; i < temp_AmtParty; ++i) {
 	var _track = ""
 	for (t = 0; t < ds_map_size(mWEP.wTracks); ++t) {
 		_track = mWEP.trackNames[| t]
-		initialize_track(_addToParty, _track);
+		initialize_track(_addToParty, _track, true);
 		add_weapon(_addToParty, _track, 7, 1)
 	}
 	refresh_tracks(_addToParty, 1);
