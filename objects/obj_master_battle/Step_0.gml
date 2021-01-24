@@ -14,7 +14,7 @@ if (!_hoverActive) {
 	hovering_partymem = -1;
 	hovering_enemy = -1;
 }
-
+//LMB checks
 if (mouse_check_button_pressed(mb_left)) {
 	switch (currentState) {
 		case battleState.intro:
@@ -85,7 +85,8 @@ if (mouse_check_button_pressed(mb_left)) {
 		break;
 		case battleState.e_attack:
 		currentState = battleState.p_choice;
-		reset_damage_display_row();
+		clear_target_row();
+		clear_damage_display_row();
 		break;
 	}
 }

@@ -75,14 +75,60 @@ function takeDamage(enemy, damage) {
 }
 function checkTrap(enemy) {
 	//check for being lured into trap
-	if (ds_map_exists(enemy.debuffs, "lured") && ds_queue_size(enemy.trapQueue) > 0) {
+	if (!ds_map_exists(enemy.debuffs, "unlured") && ds_map_exists(enemy.debuffs, "lured") && ds_queue_size(enemy.trapQueue) > 0) {
 		var _activeTrap = ds_queue_dequeue(enemy.trapQueue)
-		enemy.currentHP -= _activeTrap.damage;
+		takeDamage(enemy, _activeTrap.damage);
 		ds_map_delete(enemy.debuffs, "lured")
+		debuff_single(enemy, "unlured", 0, 0, 0)
 	}
 }
 function resetCombo(enemy) {
 	enemy.damageSum = 0;
 	enemy.comboMultiplier = 0;
 	enemy.comboCount = 0;
+}
+function calcCombo() {
+	var _trackChange = false;
+	switch (ds_priority_size(attackQueue)) {
+		case 0:
+		_trackChange = true;
+		break;
+		default:
+		_trackChange = activeAttack.trackname != ds_priority_find_min(attackQueue).trackname;
+		break
+	}
+	if (_trackChange) {
+		for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
+			var _enemy = mBATTLE.reg_enemy[| i]
+			//clear double traps
+			if (ds_queue_size(_enemy.trapQueue) > 1) {
+				ds_queue_clear(_enemy.trapQueue);
+			}
+			//deal combo damage
+			if (_enemy.comboCount > 1 && useCombo) {
+				var _comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
+				_enemy.currentHP -= _comboDamage
+				ds_list_add(_enemy.damageValuesIn, _comboDamage);
+				ds_list_add(_enemy.damageColorsIn, c_yellow);
+			}
+			//deal lure damage; unlures after taking damage regardless of bonus
+			if (ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
+				if (useLureKB) {
+					var _lureFactor = array_get(ds_map_find_value(_enemy.debuffs, "lured"), debuff_properties.factor);
+					var _knockbackDamage = ceil((_enemy.damageSum) * _lureFactor)
+					_enemy.currentHP -= _knockbackDamage;
+					ds_list_add(_enemy.damageValuesIn, _knockbackDamage);
+					ds_list_add(_enemy.damageColorsIn, c_orange);
+				}
+				ds_map_delete(_enemy.debuffs, "lured")
+			}
+			//reset per-track damage intake
+			resetCombo(_enemy);
+			comboScaled[i] = comboBase;
+			//prepare enemy clear sequence if dead
+			if (!(_enemy.currentHP > 0) && !mBATTLE.clearDead) {
+				mBATTLE.clearDead = true;
+			}
+		}
+	}
 }

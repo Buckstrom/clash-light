@@ -10,7 +10,7 @@ if (isHovering) {
 if (debug_textEntryActive) {
 	if (keyboard_check_pressed(vk_enter)) {
 		level = real(string_digits(keyboard_string));
-		isExe = (string_pos("exe", string_lower(keyboard_string)) != 0);
+		isExe = (string_pos("x", string_lower(keyboard_string)) != 0);
 		maxHP = ceil((level + 1) * (level + 2));
 		if (isExe) {
 			maxHP = ceil(maxHP * 1.5);

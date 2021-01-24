@@ -25,7 +25,7 @@
   ],
   "properties": [
     {"varType":2,"value":"Wallaby","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"given_name","tags":[],"resourceType":"GMObjectProperty",},
-    {"varType":0,"value":"80","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"appear_width","tags":[],"resourceType":"GMObjectProperty",},
+    {"varType":0,"value":"108","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"appear_width","tags":[],"resourceType":"GMObjectProperty",},
     {"varType":0,"value":"80","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"appear_height","tags":[],"resourceType":"GMObjectProperty",},
     {"varType":0,"value":"12","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"level","tags":[],"resourceType":"GMObjectProperty",},
     {"varType":0,"value":"ceil((level + 1) * (level + 2))","rangeEnabled":false,"rangeMin":0.0,"rangeMax":10.0,"listItems":[],"multiselect":false,"filters":[],"resourceVersion":"1.0","name":"maxHP","tags":[],"resourceType":"GMObjectProperty",},

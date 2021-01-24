@@ -1,13 +1,10 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function wep_squirt(attack, time){
+function wep_squirt(attack){
 	useLureKB = true;
 	useCombo = true;
 	//calc direct attack
 	damage_target(attack, comboBase);
-	//animate direct attack
-	alarm[0] += time;
-	anim_beam(attack.attacker, mBATTLE.reg_enemy[| attack.target], c_aqua, time)
 	//prestige check
 	switch (check_for_prestige(attack.attacker, attack.trackname)) {
 		default:

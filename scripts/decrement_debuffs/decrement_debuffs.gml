@@ -11,16 +11,10 @@ function decrement_debuffs(enemy){
 				ds_map_delete(enemy.debuffs, _seekDebuff);
 			}
 		}
-	}
+	} 
 }
 function decrement_debuffs_row(){
 	for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
 		decrement_debuffs(mBATTLE.reg_enemy[| i]);
-	}
-}
-function reset_damage_display_row(){
-	for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
-		ds_list_clear(mBATTLE.reg_enemy[| i].damageValuesIn);
-		ds_list_clear(mBATTLE.reg_enemy[| i].damageColorsIn);
 	}
 }

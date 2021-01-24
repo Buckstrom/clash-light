@@ -10,5 +10,7 @@ function wep_trap(attack){
 		attack.damage = ceil(attack.damage + (_enemy.level * 3))
 		break;
 	}
-	ds_queue_enqueue(_enemy.trapQueue, attack)
+	if (!ds_map_exists(_enemy.debuffs, "lured")) {
+		ds_queue_enqueue(_enemy.trapQueue, attack)
+	}
 }

@@ -40,10 +40,10 @@ while(!file_text_eoln(_colorsFile)) {
 }
 file_text_close(_colorsFile)
 
-//Register attack scripts
-trackScripts = ds_map_create()
+//Register attack timelines
+trackTimelines = ds_map_create()
 for (var i = 0; i < ds_list_size(trackNames); ++i) {
-	ds_map_add(trackScripts, trackNames[| i], asset_get_index("wep_" + trackNames[| i]));
+	ds_map_add(trackTimelines, trackNames[| i], asset_get_index("tl_" + trackNames[| i]));
 }
 
 //Finish init
