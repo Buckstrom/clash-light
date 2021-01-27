@@ -9,7 +9,7 @@ switch (_highlighted) {
 	draw_set_color(c_black)
 	break;
 	case false:
-	draw_rectangle(mAPPEAR_COORDS, true)
+	draw_rectangle_width(mAPPEAR_COORDS, 2)
 	break;
 }
 if (choiceWep != -1 && choiceTrack != -1) {

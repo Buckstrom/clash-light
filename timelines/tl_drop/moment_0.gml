@@ -1,1 +1,1 @@
-anim_fx(fx_ray, activeAttack.attacker, mBATTLE.reg_enemy[| activeAttack.target], c_maroon, attackAnimTime)
+anim_fx(fx_waveIn, mBATTLE.reg_enemy[| activeAttack.target], 0, c_maroon, attackAnimTime)

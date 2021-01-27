@@ -22,14 +22,14 @@ switch (currentState) {
 	case battleState.p_choice:
 	//draw weapon GUI background
 	var _trackLength = 8;
-	var _wepBack = {
+	/*var _wepBack = {
 		x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + 1,
 		y1 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + 1,
 		x2 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + (button_width + ((_trackLength - 1) * button_width)) - 1,
 		y2 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) + (button_height / 2) + (((_totalTracks - 1) * button_height)) - 1,
 	};
 	draw_set_color(c_white)
-	draw_rectangle(mWEPBACK_COORDS, true)
+	draw_rectangle(mWEPBACK_COORDS, true)*/
 	for (var t = 0; t < _totalTracks; ++t) {
 		//execute for each track that the member owns
 		var _readTrack = mWEP.trackNames[| t]
@@ -48,7 +48,7 @@ switch (currentState) {
 			//draw track header
 			var _trackHeader = {
 				x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) - (button_width / 2),
-				y1 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * t)),
+				y1 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * t)) + 1,
 				x2 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + (button_width + ((_trackLength - 1) * button_width)) - 1 + (button_width / 2),
 				y2 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin) - (_totalTracks * (button_height / 2)) + (button_height / 2) + ((button_height * t)),
 			}
@@ -59,9 +59,9 @@ switch (currentState) {
 				//draw each weapon, quantity, and availability
 				var _button = {
 					x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + (i * button_width),
-					y1 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * t)),
+					y1 : floor(wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * t))),
 					x2 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + (button_width + (i * button_width)),
-					y2 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin) - (_totalTracks * (button_height / 2)) + (button_height / 2) + ((button_height * t)),
+					y2 : floor(wepgui_offset_y + ((view_hport[0]) * wepgui_margin) - (_totalTracks * (button_height / 2)) + (button_height / 2) + ((button_height * t))),
 				};
 				//prepare to draw button
 				draw_set_alpha(1)
@@ -155,10 +155,10 @@ draw_set_color(c_white)
 draw_set_font(useFont)
 draw_text(0,0,string(currentState) + "\n" + mCURRENT_MEM.given_name + "\n" + wepString);
 */
-draw_set_halign(fa_left)
 draw_set_color(c_white)
 draw_set_font(useFont)
-draw_set_valign(fa_top)
-draw_text(0,0, "Right-Click Party\nMember to Cancel\n\nShift-Click Enemy\nto Set Level\n(Add x to set to .Exe)")
+draw_set_halign(fa_right)
 draw_set_valign(fa_bottom)
+draw_text(view_wport[0], view_hport[0], "Right-Click Party\nMember to Cancel\n\nShift-Click Enemy\nto Set Level\n(Add x to set to .Exe)")
+draw_set_halign(fa_left)
 draw_text(0, view_hport[0],wepString);
