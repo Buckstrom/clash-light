@@ -18,4 +18,8 @@ if (debug_valueEdit) {
 	editFill = instance_create_layer(x,y + (marginY * 5),"GUI", button_adjust_bool);
 	editFill.editValue = spawnToFill;
 	editFill.label = "Fill Spaces"
+	editSpawn = instance_create_layer(x + marginX,y + (marginY * 6),"GUI", button_adjust_trigger);
+	editSpawn.editValue = triggerSpawn;
+	editSpawn.label = "Add"
+	instance_create_layer(x + marginX,y + (marginY * 7),"GUI", button_clear_enemy);
 }

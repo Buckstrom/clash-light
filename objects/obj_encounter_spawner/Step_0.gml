@@ -3,8 +3,9 @@ lvRangeMax = editMax.editValue
 allowExe = editExe.editValue
 allowSpc = editSpc.editValue
 spawnToFill = editFill.editValue
+triggerSpawn = editSpawn.editValue
 /// Spawn enemy to fill row
-if (spawnToFill && ds_list_size(mBATTLE.reg_enemy) < rowSize) {
+if ((spawnToFill || triggerSpawn) && ds_list_size(mBATTLE.reg_enemy) < rowSize) {
 	var _addEnemy = instance_create_layer(0,0, "Instances", par_battle_enemy)
 	//assign name, random level and place
 	_addEnemy.given_name = "Suit";

@@ -13,6 +13,7 @@
     {"id":{"name":"initialize_track","path":"scripts/initialize_track/initialize_track.yy",},"order":1,},
     {"id":{"name":"tl_lure","path":"timelines/tl_lure/tl_lure.yy",},"order":6,},
     {"id":{"name":"ico_trapped","path":"sprites/ico_trapped/ico_trapped.yy",},"order":2,},
+    {"id":{"name":"button_adjust_trigger","path":"objects/button_adjust_trigger/button_adjust_trigger.yy",},"order":5,},
     {"id":{"name":"draw_pie","path":"scripts/draw_pie/draw_pie.yy",},"order":0,},
     {"id":{"name":"clear_target","path":"scripts/clear_target/clear_target.yy",},"order":6,},
     {"id":{"name":"wep_sound","path":"scripts/wep_sound/wep_sound.yy",},"order":6,},
