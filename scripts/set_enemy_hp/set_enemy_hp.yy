@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "thxinternet",
-    "path": "folders/Scripts/thxinternet.yy",
+    "name": "Scripts",
+    "path": "folders/Scripts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "utility_scripts",
+  "name": "set_enemy_hp",
   "tags": [],
   "resourceType": "GMScript",
 }

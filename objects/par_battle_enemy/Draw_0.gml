@@ -22,6 +22,16 @@ var _tagText = "Level " + string(level);
 if (isExe) {
 	_tagText += ".exe"
 }
+switch (specialty) {
+	case specialty_types.atk:
+	_tagText += " +ATK"
+	break
+	case specialty_types.def:
+	_tagText += " +DEF"
+	break
+	default:
+	break;
+}
 _tagText += "\n" + given_name;
 draw_text_ext(x, y - (appear_height / 2), _tagText, font_get_size(fnt_blocks) * 1.5, view_wport[0])
 //draw enemy health
@@ -30,7 +40,9 @@ var _showHP = string(currentHP) + " / " + string(maxHP)
 if (currentHP < prevHP) {
 	_showHP += "\nDamage: " + string(prevHP - currentHP);
 }
-draw_text(x, y + (appear_height / 2), _showHP)
+draw_text_ext(x, y + (appear_height * (1/2)), _showHP, font_get_size(fnt_blocks) * 2, appear_width * 1.5)
+//draw healthbar
+draw_healthbar(x - (appear_width / 2), y + (appear_height * (4/5)) - 6 + 1, x + (appear_width / 2), y + (appear_height * (4/5)) + 6 + 1, currentHP / maxHP * 100, c_grey, c_red, c_lime, 0, true, true)
 //draw debuff list in order
 //var _debuffList = "";
 var _debuffAmt = ds_map_size(debuffs);
@@ -88,7 +100,9 @@ for (var i = 0; i < ds_list_size(damageValuesIn); ++i) {
 	draw_set_color(damageColorsIn[| i]);
 	draw_set_halign(fa_center)
 	draw_set_valign(fa_middle)
-	draw_text(x, _damageLine, "-" + string(damageValuesIn[| i]));
+	if (damageValuesIn[| i] > 0) {
+		draw_text(x, _damageLine, "-" + string(damageValuesIn[| i]));
+	}
 	_damageLine += (font_get_size(fnt_blocks) * 1.125);
 }
 draw_set_alpha(1)

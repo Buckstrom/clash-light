@@ -1,0 +1,2 @@
+#macro mUP_COORDS x - (appear_width / 2), y - (appear_height * 2), x + (appear_width / 2), y - (appear_height / 1.5)
+#macro mDOWN_COORDS x - (appear_width / 2), y + (appear_height / 1.5), x + (appear_width / 2), y + (appear_height * 2)

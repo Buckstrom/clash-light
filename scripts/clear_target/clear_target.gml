@@ -4,12 +4,11 @@ function clear_target(partymem){
 	partymem.choiceTarget = -1;
 	partymem.choiceTrack = -1;
 	partymem.choiceWep = -1;
+	partymem.nextAction = false;
 }
 function clear_target_row(){
 	for (var i = 0; i < ds_list_size(mBATTLE.reg_party); ++i) {
 		var _partymem = mBATTLE.reg_party[| i];
-		_partymem.choiceTarget = -1;
-		_partymem.choiceTrack = -1;
-		_partymem.choiceWep = -1;
+		clear_target(_partymem);
 	}
 }

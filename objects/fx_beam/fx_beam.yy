@@ -34,8 +34,8 @@
   ],
   "overriddenProperties": [],
   "parent": {
-    "name": "Objects",
-    "path": "folders/Objects.yy",
+    "name": "fx",
+    "path": "folders/Objects/fx.yy",
   },
   "resourceVersion": "1.0",
   "name": "fx_beam",

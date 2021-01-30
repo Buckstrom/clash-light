@@ -22,12 +22,19 @@ if (mouse_check_button_pressed(mb_left)) {
 		currentState = battleState.p_choice;
 		break;
 		case battleState.p_choice:
+		//check if action is highlighted
+		if (actMisc != false) {
+			//set party member to action
+			mCURRENT_MEM.nextAction = actMisc;
+			battle_check_ready();
+		}
 		//check if weapon is highlighted
 		if (currentWep != -1 && currentTrack != -1) {
 			//check current inventory quantity
 			if (ds_grid_get(mCURRENT_MEM.inventory[? currentTrack], currentWep, 0) > 0 || debug_ignoreQuantities) {
 				mCURRENT_MEM.choiceWep = currentWep;
 				mCURRENT_MEM.choiceTrack = currentTrack;
+				mCURRENT_MEM.nextAction = "ATTACK";
 				//find targeting mode for weapon: 0 - single, 1 - all
 				var _targetMode = ds_grid_get(mWEP.wTracks[? currentTrack], currentWep, 4)
 				switch (_targetMode) {
@@ -36,23 +43,7 @@ if (mouse_check_button_pressed(mb_left)) {
 					break;
 					case 1:
 					mCURRENT_MEM.choiceTarget = -2;
-					//change active party member to the next undecided one, otherwise move to anim
-					for (var _partyDecided = 0; _partyDecided < ds_list_size(reg_party); ++_partyDecided) {
-						//stop at a member that is undecided
-						if (mCURRENT_MEM.choiceTarget = -1) {
-							break;
-						}
-						//otherwise, check the next
-						if (current_partymem < ds_list_size(reg_party) - 1) {
-							++current_partymem
-						}
-						else {
-							current_partymem = 0;
-						}
-					}
-					if (_partyDecided == ds_list_size(reg_party)) {
-						currentState = battleState.p_attack;
-					}
+					battle_check_ready();
 					break;
 				}
 			}
@@ -63,24 +54,7 @@ if (mouse_check_button_pressed(mb_left)) {
 		if (hovering_enemy != -1) {
 			mCURRENT_MEM.choiceTarget = hovering_enemy
 			currentState = battleState.p_choice
-			//change active party member to the next undecided one, otherwise move to anim
-			for (var _partyDecided = 0; _partyDecided < ds_list_size(reg_party); ++_partyDecided) {
-				//stop at a member that is undecided
-				if (mCURRENT_MEM.choiceTarget = -1) {
-					break;
-				}
-				//otherwise, check the next
-				if (current_partymem < ds_list_size(reg_party) - 1) {
-					++current_partymem
-				}
-				else {
-					current_partymem = 0;
-				}
-			}
-			//begin attack calculations if all party members have made a decision
-			if (_partyDecided == ds_list_size(reg_party)) {
-				currentState = battleState.p_attack;
-			}
+			battle_check_ready();
 		}
 		break;
 		case battleState.e_attack:
@@ -90,7 +64,7 @@ if (mouse_check_button_pressed(mb_left)) {
 		break;
 	}
 }
-
+///RMB actions
 if (mouse_check_button_pressed(mb_right)) {
 	switch (currentState) {
 		case battleState.p_choice:
@@ -131,4 +105,21 @@ switch (currentState) {
 	break;
 	default:
 	break;
+}
+//switch party members with a-d or arrow keys
+if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))){
+	if (current_partymem < ds_list_size(reg_party) - 1) {
+		++current_partymem
+	}
+	else {
+		current_partymem = 0
+	}
+}
+if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"))){
+	if (current_partymem > 0) {
+		--current_partymem
+	}
+	else {
+		current_partymem = ds_list_size(reg_party) - 1
+	}
 }

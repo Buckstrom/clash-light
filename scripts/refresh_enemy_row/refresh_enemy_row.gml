@@ -2,9 +2,12 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function refresh_enemy_row(){
 	for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
+		if (mBATTLE.reg_enemy[| i]) {
 			mBATTLE.reg_enemy[| i].reg_space = i;
 			mBATTLE.reg_enemy[| i].x = view_wport[0] * ((1.5 + i) / (2 + ds_list_size(mBATTLE.reg_enemy)))
+			mBATTLE.reg_enemy[| i].y = 92;
 			mBATTLE.reg_enemy[| i].prevHP = mBATTLE.reg_enemy[| i].currentHP;
+		}
 	}
 }
 function remove_dead_enemy_row(){

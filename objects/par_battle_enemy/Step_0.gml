@@ -11,11 +11,18 @@ if (debug_textEntryActive) {
 	if (keyboard_check_pressed(vk_enter)) {
 		level = real(string_digits(keyboard_string));
 		isExe = (string_pos("x", string_lower(keyboard_string)) != 0);
-		maxHP = ceil((level + 1) * (level + 2));
-		if (isExe) {
-			maxHP = ceil(maxHP * 1.5);
+		var _checkAtk = (string_pos("a", string_lower(keyboard_string)))
+		var _checkDef = (string_pos("d", string_lower(keyboard_string)))
+		if (_checkDef > _checkAtk) {
+			specialty = specialty_types.def
 		}
-		currentHP = maxHP
+		if (_checkDef < _checkAtk) {
+			specialty = specialty_types.atk
+		}
+		if (_checkDef == 0 && _checkAtk = 0) {
+			specialty = specialty_types.none
+		}
+		set_enemy_hp(self, true);
 		refresh_enemy_row()
 		debug_textEntryActive = false;
 		//instance_activate_all();

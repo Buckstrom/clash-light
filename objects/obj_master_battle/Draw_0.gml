@@ -122,12 +122,56 @@ switch (currentState) {
 			}
 		}
 	}
+	//draw misc actions
+	for (var m = 0; m < 1; ++m){
+		//draw each weapon, quantity, and availability
+		var _button = {
+			x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + ((_trackLength + 0.5) * button_width),
+			y1 : floor(wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * m))),
+			x2 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + (button_width + ((_trackLength + 0.5) * button_width)),
+			y2 : floor(wepgui_offset_y + ((view_hport[0]) * wepgui_margin) - (_totalTracks * (button_height / 2)) + (button_height / 2) + ((button_height * m))),
+		};
+		//prepare to draw button
+		draw_set_alpha(1)
+		draw_set_color(c_white)
+		draw_set_valign(fa_middle)
+		draw_set_halign(fa_center)
+		//check for mouse hover
+		if (point_in_rectangle(mouse_x, mouse_y, mBUTTON_COORDS)) {
+			//modify button look
+			draw_roundrect(mBUTTON_COORDS, false)
+			draw_set_color(c_black)
+			draw_set_font(useFont)
+			draw_text(mBUTTON_CENTER, "PASS")
+			//change current hover action
+			if (actMisc != "PASS") {
+				actMisc = "PASS"
+			}
+			hoveringAct = true;
+		}
+		//draw normal button
+		else {
+			draw_set_color(c_aqua)
+			draw_set_alpha(0.5)
+			draw_roundrect(mBUTTON_COORDS, false)
+			draw_set_alpha(1)
+			draw_set_color(c_black)
+			draw_roundrect(_button.x1 + 1, _button.y1 + 1, _button.x2 - 1, _button.y2 - 1, true)
+			draw_set_color(c_white)
+			draw_set_font(useFont)
+			draw_text(mBUTTON_CENTER, "PASS")
+		}
+	}
 	if (!hoveringWep) {
 		currentWep = -1;
 		currentTrack = -1;
 		wepString = "";
 	}
 	hoveringWep = false;
+	if (!hoveringAct) {
+		actMisc = false;
+	}
+	hoveringAct = false;
 	break;
 	case battleState.p_target:
 	draw_set_color(c_white)
@@ -159,6 +203,6 @@ draw_set_color(c_white)
 draw_set_font(useFont)
 draw_set_halign(fa_right)
 draw_set_valign(fa_bottom)
-draw_text(view_wport[0], view_hport[0], "Right-Click Party\nMember to Cancel\n\nShift-Click Enemy\nto Set Level\n(Add x to set to .Exe)")
+draw_text(view_wport[0], view_hport[0], "Right-Click Party\nMember to Cancel\n\nShift-Click Enemy\nto Set Level\nAdd x: Exe, a: ATK, d: DEF\nHave fun! :-) ~King Pants")
 draw_set_halign(fa_left)
 draw_text(0, view_hport[0],wepString);

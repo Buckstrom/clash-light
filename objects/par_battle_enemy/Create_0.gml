@@ -19,3 +19,8 @@ enum debuff_properties {
 	misc,
 	stacks
 }
+enum specialty_types {
+	none,
+	atk,
+	def
+}

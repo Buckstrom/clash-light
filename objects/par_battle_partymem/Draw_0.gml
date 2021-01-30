@@ -15,6 +15,9 @@ switch (_highlighted) {
 if (choiceWep != -1 && choiceTrack != -1) {
 	draw_text(x, y, string_upper(string_copy(choiceTrack, 0, 3)) + string(choiceWep + 1))
 }
+else if (nextAction != false) {
+	draw_text(x, y, string_upper(string_copy(nextAction, 0, 4)))
+}
 draw_set_color(c_white)
 draw_set_valign(fa_top)
 draw_text_ext(x, y + (appear_height / 2), given_name + "\n" + string(currentHP) + " / " + string(maxHP), font_get_size(fnt_blocks) * 1.5, view_wport[0])

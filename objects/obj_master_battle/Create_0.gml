@@ -23,6 +23,7 @@ currentState = battleState.intro;
 currentWep = -1;
 currentTrack = -1;
 hoveringWep = false;
+hoveringAct = false;
 wepString = "";
 
 inst_calc = -1;
@@ -38,12 +39,16 @@ hovering_partymem = -1;
 hovering_enemy = -1;
 
 //temp: spawn battle participants with inventories
+//Register pm names
 var _tempNames = array_create(temp_AmtParty, "Void")
-_tempNames[0] = "Sonata";
-_tempNames[1] = "Ai";
-_tempNames[2] = "Baron";
-_tempNames[3] = "Wiz";
-var _tempTracks = array_create(temp_AmtEnemy, "sound")
+var _pmNamesFile = file_text_open_read("placeholder_pmNames.txt");
+var _n = 0;
+while(!file_text_eoln(_pmNamesFile)) {
+	_tempNames[_n++] = string_replace(file_text_readln(_pmNamesFile), "\r\n", "");
+}
+file_text_close(_pmNamesFile)
+
+var _tempTracks = array_create(temp_AmtParty, "sound")
 _tempTracks[0] = "squirt";
 _tempTracks[1] = "zap";
 _tempTracks[2] = "throw";
@@ -73,7 +78,7 @@ for (i = 0; i < temp_AmtParty; ++i) {
 	reg_party[| i] = _addToParty;
 }
 //temp enemy filler
-for (i = 0; i < temp_AmtEnemy; ++i) {
+/*for (i = 0; i < temp_AmtEnemy; ++i) {
 	//create enemy
 	var _addEnemy = instance_create_layer(0, 92, "Instances", par_battle_enemy)
 	//assign name and place

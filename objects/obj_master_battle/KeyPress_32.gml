@@ -3,7 +3,7 @@
 }
 else {
 	current_partymem = 0
-}*/
+}
 //add a new enemy if under capacity
 if (ds_list_size(reg_enemy) < temp_AmtEnemy) {
 	var _addEnemy = instance_create_layer(view_wport[0] * ((2 + i) / (3 + temp_AmtEnemy)), 92, "Instances", par_battle_enemy)
