@@ -10,13 +10,13 @@ function damage_target(attack,combofactor){
 		break;
 	}
 }
-function debuff_target(attack, debuffname, duration, factor, misc){
+function debuff_target(attack, debuffname, duration, factor, misc, stacks){
 	switch(attack.target) {
 		default:
-		debuff_single(attack.target, debuffname, duration, factor, misc)
+		debuff_single(attack.target, debuffname, duration, factor, misc, stacks)
 		break;
 		case -2:
-		debuff_all(debuffname, duration, factor, misc)
+		debuff_all(debuffname, duration, factor, misc, stacks)
 		break;
 	}
 }
@@ -38,8 +38,11 @@ function damage_all(attack, combofactor){
 		++_enemy.comboCount;
 	}
 }
-function debuff_single(target, debuffname, duration, factor, misc){
-	var _properties = array_debuff_properties(duration, factor, misc)
+function debuff_single(target, debuffname, duration, factor, misc, stacks){
+	if (is_undefined(stacks)) {
+		stacks = false;
+	}
+	var _properties = array_debuff_properties(duration, factor, misc, stacks)
 	var _enemy = ds_list_find_value(mBATTLE.reg_enemy, target)
 	if (is_undefined(_enemy)) {
 		return;
@@ -48,30 +51,35 @@ function debuff_single(target, debuffname, duration, factor, misc){
 		ds_map_add(_enemy.debuffs, debuffname, _properties)
 		checkTrap(_enemy);
 	}
-}
-function debuff_all(debuffname, duration, factor, misc){
-	var _properties = array_debuff_properties(duration, factor, misc)
-	var _row = ds_list_size(mBATTLE.reg_enemy);
-	for (var i = 0; i < _row; ++i) {
-		var _enemy = mBATTLE.reg_enemy[| i]
-		if (!ds_map_exists(_enemy.debuffs, debuffname)) {
-			ds_map_add(_enemy.debuffs, debuffname, _properties)
-			checkTrap(_enemy)
+	//stack debuffs if allowed
+	else if (_enemy.debuffs[? debuffname][debuff_properties.stacks]) {
+		//add to duration
+		_enemy.debuffs[? debuffname][debuff_properties.duration] += duration;
+		//keep higher factor
+		if (factor > _enemy.debuffs[? debuffname][debuff_properties.factor]) {
+			_enemy.debuffs[? debuffname][debuff_properties.factor] = factor;
 		}
 	}
 }
-function array_debuff_properties(duration, factor, misc) {
-	var _properties = array_create(3)
+function debuff_all(debuffname, duration, factor, misc, stacks){
+	var _e = 0;
+	repeat (ds_list_size(mBATTLE.reg_enemy)) {
+		debuff_single(_e++, debuffname, duration, factor, misc, stacks);
+	}
+}
+function array_debuff_properties(duration, factor, misc, stacks) {
+	var _properties = array_create(4)
 	_properties[debuff_properties.duration] = duration
 	_properties[debuff_properties.factor] = factor
 	_properties[debuff_properties.misc] = misc;
+	_properties[debuff_properties.stacks] = stacks;
 	return _properties;
 }
 function takeDamage(enemy, damage) {
 	enemy.currentHP -= damage;
 	enemy.damageSum += damage;
-	ds_list_add(enemy.damageValuesIn, damage);
-	ds_list_add(enemy.damageColorsIn, c_red);
+	ds_list_set(enemy.damageValuesIn, damageOrder, damage);
+	ds_list_set(enemy.damageColorsIn, damageOrder, c_red);
 }
 function checkTrap(enemy) {
 	//check for being lured into trap
@@ -98,6 +106,8 @@ function calcCombo() {
 		break
 	}
 	if (_trackChange) {
+		var _comboDamage = false;
+		var _knockbackDamage = false;
 		for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
 			var _enemy = mBATTLE.reg_enemy[| i]
 			//clear double traps
@@ -106,19 +116,24 @@ function calcCombo() {
 			}
 			//deal combo damage
 			if (_enemy.comboCount > 1 && useCombo) {
-				var _comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
+				_comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
 				_enemy.currentHP -= _comboDamage
-				ds_list_add(_enemy.damageValuesIn, _comboDamage);
-				ds_list_add(_enemy.damageColorsIn, c_yellow);
+				var _offset = 1;
+				ds_list_set(_enemy.damageValuesIn, damageOrder + _offset, _comboDamage);
+				ds_list_set(_enemy.damageColorsIn, damageOrder + _offset, c_yellow);
 			}
 			//deal lure damage; unlures after taking damage regardless of bonus
 			if (ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
 				if (useLureKB) {
 					var _lureFactor = array_get(ds_map_find_value(_enemy.debuffs, "lured"), debuff_properties.factor);
-					var _knockbackDamage = ceil((_enemy.damageSum) * _lureFactor)
+					_knockbackDamage = ceil((_enemy.damageSum) * _lureFactor)
 					_enemy.currentHP -= _knockbackDamage;
-					ds_list_add(_enemy.damageValuesIn, _knockbackDamage);
-					ds_list_add(_enemy.damageColorsIn, c_orange);
+					var _offset = 1;
+					if (_comboDamage) {
+						++_offset
+					}
+					ds_list_set(_enemy.damageValuesIn, damageOrder + _offset, _knockbackDamage);
+					ds_list_set(_enemy.damageColorsIn, damageOrder + _offset, c_orange);
 				}
 				ds_map_delete(_enemy.debuffs, "lured")
 			}
@@ -130,5 +145,17 @@ function calcCombo() {
 				mBATTLE.clearDead = true;
 			}
 		}
+		if (_comboDamage) {
+			++damageOrder;
+		}
+		if (_knockbackDamage) {
+			++damageOrder;
+		}
+	}
+}
+function set_debuff_stacking(target,debuffname,stacks) {
+	var _enemy = mBATTLE.reg_enemy[| target];
+	if (ds_map_exists(_enemy.debuffs, debuffname)) {
+		_enemy.debuffs[? debuffname][debuff_properties.stacks] = stacks;
 	}
 }

@@ -1,8 +1,12 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function wep_zap(attack){
+function wep_zap_base(attack){
 	useLureKB = false;
 	useCombo = false;
+	
+	jumpQueue = ds_queue_create();
+	ds_queue_clear(jumpQueue);
+	
 	var _jumpFactor = 3;
 	var _jumpSpaces = 2;
 	var _jumpFalloff = 0.75;
@@ -32,8 +36,9 @@ function wep_zap(attack){
 		++_jumpAmount;
 		//perform jumps up to maximum amount
 		for (var j = _jumpAmount; j < _jumpMax; ++j) {
+			var _jumpOutput = undefined;
 			//find next jump candidate within range to the left
-			for (var i = _currentTarget; i >= _currentTarget - _jumpSpaces; --i) {
+			for (var i = _currentTarget - 1; i >= _currentTarget - _jumpSpaces; --i) {
 				//go to next check if target is out of range, original target, or already jumped
 				if (i < 0 || i >= ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
 					continue;
@@ -51,7 +56,7 @@ function wep_zap(attack){
 			}
 			//find next jump candidate within range to the right
 			if (!_jumpValid) {
-				for (var i = _currentTarget; i <= _currentTarget + _jumpSpaces; ++i) {
+				for (var i = _currentTarget + 1; i <= _currentTarget + _jumpSpaces; ++i) {
 					//go to next check if target is out of range, original target, or already jumped
 					if (i < 0 || i >= ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
 						continue;
@@ -69,10 +74,14 @@ function wep_zap(attack){
 				}
 			}
 			if (_jumpValid) {
-				attack.damage = ceil(_baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount)));
-				attack.target = i;
-				damage_single(attack, 0);
-				debuff_single(attack.target, "jumped", 0, 0, 0);
+				var _outDamage = ceil(_baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount)));
+				var _outTarget = i;
+				_jumpOutput = {
+					target : _outTarget,
+					damage : _outDamage
+				}
+				
+				ds_queue_enqueue(jumpQueue, _jumpOutput);
 				//move to next jump
 				_currentTarget = i;
 				++_jumpAmount;
@@ -83,5 +92,18 @@ function wep_zap(attack){
 	//deal dry zap damage
 	else {
 		damage_single(attack, 0);
+	}
+}
+function wep_zap_jump(attack){
+	switch ds_queue_head(jumpQueue) {
+		case undefined:
+		break;
+		default:
+		var _jump = ds_queue_dequeue(jumpQueue);
+		attack.target = _jump.target;
+		attack.damage = _jump.damage;
+		damage_single(attack, 0);
+		debuff_single(attack.target, "jumped", 0, 0, 0);
+		break;
 	}
 }

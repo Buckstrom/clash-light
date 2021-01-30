@@ -30,3 +30,4 @@ ds_list_destroy(_choices);
 //begin attack sequence
 comboScaled = array_create(ds_list_size(mBATTLE.reg_enemy), comboBase)
 alarm[0] = battleTick
+activeAttack = ds_priority_find_min(attackQueue)

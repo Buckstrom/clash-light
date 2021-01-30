@@ -82,12 +82,13 @@ draw_set_font(fnt_blocks)
 //draw received damage
 var _damageLine = (y + (appear_height / 2)) + (font_get_size(fnt_blocks) * 3.5)
 for (var i = 0; i < ds_list_size(damageValuesIn); ++i) {
+	if (is_undefined(damageValuesIn[| i])) {
+		continue;
+	}
 	draw_set_color(damageColorsIn[| i]);
 	draw_set_halign(fa_center)
 	draw_set_valign(fa_middle)
-	if (damageValuesIn[| i] != 0) {
-		draw_text(x, _damageLine, "-" + string(damageValuesIn[| i]));
-	}
-	_damageLine += (font_get_size(fnt_blocks) * 1.5);
+	draw_text(x, _damageLine, "-" + string(damageValuesIn[| i]));
+	_damageLine += (font_get_size(fnt_blocks) * 1.125);
 }
 draw_set_alpha(1)

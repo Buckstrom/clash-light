@@ -7,11 +7,15 @@ comboMultiplier = 0;
 trapQueue = ds_queue_create();
 damageValuesIn = ds_list_create();
 damageColorsIn = ds_list_create();
+ds_list_clear(damageValuesIn);
+ds_list_clear(damageColorsIn);
 
 isHovering = false;
 debuffs = ds_map_create();
+ds_map_clear(debuffs);
 enum debuff_properties {
 	duration,
 	factor, //(multiplier, reduction, amount)
-	misc
+	misc,
+	stacks
 }
