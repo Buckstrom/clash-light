@@ -63,9 +63,24 @@ for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 		draw_set_color(c_aqua);
 		draw_set_valign(fa_middle)
 		draw_text(x + (appear_width / 2) + 28, y - (appear_height / 2) + 20 + (_n * 24), string(debuffs[? _checkDebuff][debuff_properties.duration]))
-		if (_checkDebuff == "lured") {
-			draw_set_color(c_lime)
-			draw_text(x + (appear_width / 2) + 28, y - (appear_height / 2) + 6 + (_n * 24), string(100 * debuffs[? _checkDebuff][debuff_properties.factor]));
+		//draw debuff factor
+		var _drawFactor = false;
+		switch (_checkDebuff) {
+			case "lured":
+			draw_set_color(mWEP.trackColors[? "lure"])
+			_drawFactor = "+" + string(100 * debuffs[? _checkDebuff][debuff_properties.factor]) + "%"
+			break;
+			case "jumped":
+			draw_set_color(mWEP.trackColors[? "zap"])
+			_drawFactor = string_format(debuffs[? _checkDebuff][debuff_properties.factor],1,1) + "x"
+			break;
+		}
+		if (_drawFactor != false) {
+			draw_set_halign(fa_right);
+			if (isHovering) {
+				draw_set_color(merge_color(draw_get_color, c_black, 0.5));
+			}
+			draw_text(x + (appear_width / 2), y - (appear_height / 2) + 8 + (_n * 24), _drawFactor);
 		}
 		++_n
 		/*if (mWEP.debuffNames[| i] == "lured") {

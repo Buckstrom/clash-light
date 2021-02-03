@@ -1,14 +1,14 @@
-var _trackCount = ds_map_size(mCURRENT_MEM.ownedtracks)
+//var _trackCount = ds_map_size(mCURRENT_MEM.ownedtracks)
 var _totalTracks = ds_list_size(mWEP.wTracks)
 // GUI
 draw_set_color(c_purple)
-var _enemyBack = {
+/*var _enemyBack = {
 	x1 : 0,
 	y1 : 0,
 	x2 : view_wport[0],
 	y2 : ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) - 1
 }
-//draw_rectangle(mENEMYBACK_COORDS, false)
+draw_rectangle(mENEMYBACK_COORDS, false)*/
 switch (currentState) {
 	case battleState.intro:
 	draw_set_color(c_black)
@@ -45,7 +45,7 @@ switch (currentState) {
 		//change track color
 		var _trackColor = mWEP.trackColors[? _readTrack]
 		if ds_map_exists(_viewingMem.inventory, _readTrack) {
-			//draw track header
+			/*//draw track header
 			var _trackHeader = {
 				x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) - (button_width / 2),
 				y1 : wepgui_offset_y + ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) + ((button_height * t)) + 1,
@@ -120,10 +120,10 @@ switch (currentState) {
 			if (point_in_rectangle(mouse_x, mouse_y, mPRES_COORDS) && mouse_check_button_pressed(mb_left)) {
 				_viewingMem.invPres[? _readTrack] = !_viewingMem.invPres[? _readTrack]
 			}
-		}
+		*/}
 	}
 	//draw misc actions
-	for (var m = 0; m < 1; ++m){
+	/*for (var m = 0; m < 1; ++m){
 		//draw each weapon, quantity, and availability
 		var _button = {
 			x1 : (view_wport[0]/2) - (_trackLength * (button_width / 2)) + ((_trackLength + 0.5) * button_width),
@@ -161,7 +161,7 @@ switch (currentState) {
 			draw_set_font(useFont)
 			draw_text(mBUTTON_CENTER, "PASS")
 		}
-	}
+	}*/
 	if (!hoveringWep) {
 		currentWep = -1;
 		currentTrack = -1;
@@ -203,6 +203,6 @@ draw_set_color(c_white)
 draw_set_font(useFont)
 draw_set_halign(fa_right)
 draw_set_valign(fa_bottom)
-draw_text(view_wport[0], view_hport[0], "Right-Click Party\nMember to Cancel\n\nShift-Click Enemy\nto Set Level\nAdd x: Exe, a: ATK, d: DEF\nHave fun! :-) ~King Pants")
+draw_text(view_wport[0], view_hport[0], "https://github.com/\nBuckstrom/clash-light\nCheck README\nfor controls.\nHave fun! :-)\n~King Pants")
 draw_set_halign(fa_left)
-draw_text(0, view_hport[0],wepString);
+//draw_text(0, view_hport[0],wepString);

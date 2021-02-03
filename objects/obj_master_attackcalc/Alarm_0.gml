@@ -2,7 +2,8 @@
 //if all attacks are finished resolving, transition to enemy attack and decrement debuffs
 if !(ds_priority_size(attackQueue) > 0) {
 	mBATTLE.currentState = battleState.e_attack
-	decrement_debuffs_row();
+	//remove instance id and destroy
+	mBATTLE.inst_calc = -1;
 	instance_destroy(self);
 }
 else {

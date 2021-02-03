@@ -74,11 +74,13 @@ function wep_zap_base(attack){
 				}
 			}
 			if (_jumpValid) {
-				var _outDamage = ceil(_baseDamage * (_jumpFactor - (_jumpFalloff * _jumpAmount)));
+				var _outFactor = (_jumpFactor - (_jumpFalloff * _jumpAmount))
+				var _outDamage = ceil(_baseDamage * _outFactor);
 				var _outTarget = i;
 				_jumpOutput = {
 					target : _outTarget,
-					damage : _outDamage
+					damage : _outDamage,
+					factor : _outFactor,
 				}
 				
 				ds_queue_enqueue(jumpQueue, _jumpOutput);
@@ -103,7 +105,7 @@ function wep_zap_jump(attack){
 		attack.target = _jump.target;
 		attack.damage = _jump.damage;
 		damage_single(attack, 0);
-		debuff_single(attack.target, "jumped", 0, 0, 0);
+		debuff_single(attack.target, "jumped", 0, _jump.factor, 0);
 		break;
 	}
 }

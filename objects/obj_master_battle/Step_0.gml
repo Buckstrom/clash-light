@@ -21,7 +21,7 @@ if (mouse_check_button_pressed(mb_left)) {
 		//transition from intro to weapon selection (first turn)
 		currentState = battleState.p_choice;
 		break;
-		case battleState.p_choice:
+		case battleState.p_choice:/*
 		//check if action is highlighted
 		if (actMisc != false) {
 			//set party member to action
@@ -47,7 +47,7 @@ if (mouse_check_button_pressed(mb_left)) {
 					break;
 				}
 			}
-		}
+		}*/
 		break;
 		case battleState.p_target:
 		//target a hovered enemy
@@ -61,6 +61,7 @@ if (mouse_check_button_pressed(mb_left)) {
 		currentState = battleState.p_choice;
 		clear_target_row();
 		clear_damage_display_row();
+		decrement_debuffs_row();
 		break;
 	}
 }
@@ -97,7 +98,15 @@ switch (currentState) {
 		refresh_enemy_row();
 		clearDead = false;
 	}
+	//instantiate weapon gui
+	if (inst_wepgui = -1) {
+		inst_wepgui = instance_create_layer(wepgui_x,wepgui_y,self.layer,obj_gui_weapon)
+		inst_wepgui.row_amount = ds_list_size(mWEP.wTracks);
+		inst_wepgui.row_length = 8;
+		inst_wepgui.viewing_mem = mCURRENT_MEM;
+	}
 	break;
+	//instantiate attack manager
 	case battleState.p_attack:
 	if (inst_calc = -1) {
 		inst_calc = instance_create_layer(0,0,self.layer,obj_master_attackcalc)
@@ -107,19 +116,21 @@ switch (currentState) {
 	break;
 }
 //switch party members with a-d or arrow keys
-if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))){
-	if (current_partymem < ds_list_size(reg_party) - 1) {
-		++current_partymem
+if (currentState != battleState.p_target) {
+	if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))){
+		if (current_partymem < ds_list_size(reg_party) - 1) {
+			++current_partymem
+		}
+		else {
+			current_partymem = 0
+		}
 	}
-	else {
-		current_partymem = 0
-	}
-}
-if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"))){
-	if (current_partymem > 0) {
-		--current_partymem
-	}
-	else {
-		current_partymem = ds_list_size(reg_party) - 1
+	if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"))){
+		if (current_partymem > 0) {
+			--current_partymem
+		}
+		else {
+			current_partymem = ds_list_size(reg_party) - 1
+		}
 	}
 }

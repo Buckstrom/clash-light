@@ -1,4 +1,4 @@
-#macro mCALC obj_master_attackcalc
+//#macro mCALC obj_master_attackcalc
 
 var _choices;
 //register weapon choices unordered
@@ -13,12 +13,13 @@ for (var i = 0; i < ds_list_size(mBATTLE.reg_party); ++i) {
 			damage : real(ds_grid_get(mWEP.wTracks[? _attacker.choiceTrack], _attacker.choiceWep, 1))
 		}
 	}
-	else _choices[i] = -1;
+	else _choices[i] = script_execute(asset_get_index("act_" + _attacker.nextAction), _attacker);
 }
 //order attacks in priority queue
 attackCount = 0;
 attackQueue = ds_priority_create();
-for (var i = 0; i < ds_list_size(mWEP.trackNames); ++i) {
+var _trackAmount = ds_list_size(mWEP.trackNames);
+for (var i = 0; i < _trackAmount; ++i) {
 	var _attackTrack = mWEP.trackNames[| i];
 	//check current track index to see if an attacker is using that track, then add their attack to queue
 	for (var c = 0; c < array_length(_choices); ++c) {

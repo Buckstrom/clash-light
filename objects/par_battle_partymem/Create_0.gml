@@ -2,6 +2,11 @@
 
 inventory = ds_map_create();
 invPres = ds_map_create();
+
+miscInv = ds_list_create();
+ds_list_add(miscInv, "Pass")
+ds_list_add(miscInv, "Rain")
+
 reg_space = 0;
 /* inventory:
 each key is named after a track and contains this party member's track data in a DS grid

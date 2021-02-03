@@ -63,7 +63,8 @@ function debuff_single(target, debuffname, duration, factor, misc, stacks){
 }
 function debuff_all(debuffname, duration, factor, misc, stacks){
 	var _e = 0;
-	repeat (ds_list_size(mBATTLE.reg_enemy)) {
+	var _row = ds_list_size(mBATTLE.reg_enemy)
+	repeat (_row) {
 		debuff_single(_e++, debuffname, duration, factor, misc, stacks);
 	}
 }
@@ -96,6 +97,7 @@ function resetCombo(enemy) {
 	enemy.comboCount = 0;
 }
 function calcCombo() {
+	var _row = ds_list_size(mBATTLE.reg_enemy);
 	var _trackChange = false;
 	switch (ds_priority_size(attackQueue)) {
 		case 0:
@@ -108,19 +110,21 @@ function calcCombo() {
 	if (_trackChange) {
 		var _comboDamage = false;
 		var _knockbackDamage = false;
-		for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
+		for (var i = 0; i < _row; ++i) {
 			var _enemy = mBATTLE.reg_enemy[| i]
 			//clear double traps
 			if (ds_queue_size(_enemy.trapQueue) > 1) {
 				ds_queue_clear(_enemy.trapQueue);
 			}
 			//deal combo damage
-			if (_enemy.comboCount > 1 && useCombo) {
-				_comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
-				_enemy.currentHP -= _comboDamage
-				var _offset = 1;
-				ds_list_set(_enemy.damageValuesIn, damageOrder + _offset, _comboDamage);
-				ds_list_set(_enemy.damageColorsIn, damageOrder + _offset, c_yellow);
+			if (useCombo) {
+				if (_enemy.comboCount > 1) {
+					_comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
+					_enemy.currentHP -= _comboDamage
+					var _offset = 1;
+					ds_list_set(_enemy.damageValuesIn, damageOrder + _offset, _comboDamage);
+					ds_list_set(_enemy.damageColorsIn, damageOrder + _offset, c_yellow);
+				}
 			}
 			//deal lure damage; unlures after taking damage regardless of bonus
 			if (ds_map_exists(_enemy.debuffs, "lured") && _enemy.damageSum > 0) {
@@ -143,6 +147,63 @@ function calcCombo() {
 			//prepare enemy clear sequence if dead
 			if (!(_enemy.currentHP > 0) && !mBATTLE.clearDead) {
 				mBATTLE.clearDead = true;
+			}
+		}
+		//distribute lowest instance of combo damage to all enemies that did not take combo damage (SOS combo carryover)
+		if (_comboDamage) {
+			var _i = 0;
+			repeat (_row) {
+				var _enemy = mBATTLE.reg_enemy[| _i];
+				var _checkCarryover = !(_enemy.comboCount > 1) || _checkCarryover;
+				if (_checkCarryover) {
+					break;
+				}
+				++_i;
+			}
+			if (_checkCarryover) {
+				var _carryoverDamage = 0;
+				var _e = 0;
+				var _carryoverCheck = array_create(_row)
+				//check if it is the lowest instance of combo damage
+				repeat (_row) {
+					var _carryoverEnemy = mBATTLE.reg_enemy[| _e];
+					_carryoverCheck[_e] = (_carryoverEnemy.damageValuesIn[| damageOrder + _offset]);
+					if is_undefined(_carryoverCheck[_e]) {
+						_carryoverCheck[_e] = 0;
+					}
+					++_e;
+				}
+				for (var _c = 0; _c < _row; ++_c) {
+					if (_carryoverCheck[_c] == 0) {
+						continue;
+					}
+					if (_carryoverDamage == 0) {
+						_carryoverDamage = _carryoverCheck[_c]
+					}
+					if (_carryoverDamage > _carryoverCheck[_c]) {
+						_carryoverDamage = _carryoverCheck[_c]
+						_c = 0;
+					}
+				}
+				//distribute combo damage
+				if (_carryoverDamage) {
+					var _e = 0;
+					repeat (_row) {
+						var _carryoverEnemy = mBATTLE.reg_enemy[| _e];
+						var _carryoverCompare = _carryoverEnemy.damageValuesIn[| damageOrder + _offset]
+						if (is_undefined(_carryoverCompare)) {
+							_carryoverCompare = 0
+						}
+						if (!(_carryoverDamage < _carryoverCompare) || _carryoverCompare == 0) {
+							_carryoverEnemy.currentHP -= _carryoverDamage
+							var _offset = 1;
+							var _carryoverDeal = _carryoverDamage
+							ds_list_set(_carryoverEnemy.damageValuesIn, damageOrder + _offset, _carryoverDeal);
+							ds_list_set(_carryoverEnemy.damageColorsIn, damageOrder + _offset, c_yellow);
+						}
+						++_e;
+					}
+				}
 			}
 		}
 		if (_comboDamage) {

@@ -68,8 +68,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"8d53927e-fcc3-4d61-930d-10334de9736d","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "debuffs",
+    "path": "folders/Sprites/debuffs.yy",
   },
   "resourceVersion": "1.0",
   "name": "ico_soaked",
