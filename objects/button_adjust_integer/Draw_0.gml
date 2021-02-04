@@ -18,6 +18,6 @@ switch (isHoveringDown) {
 draw_set_font(fnt_blocks)
 draw_set_halign(fa_center)
 draw_set_valign(fa_middle)
-draw_text(x,y + 2,string(editValue))
+draw_text_outlined(x,y + 2,string(editValue))
 draw_set_valign(fa_top)
-draw_text(x,y + (appear_height * 2.5), label);
+draw_text_outlined(x,y + (appear_height * 2.5),label);

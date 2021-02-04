@@ -4,6 +4,8 @@
 #macro mBUTTON_COORDS _button.x1, _button.y1, _button.x2, _button.y2
 #macro mPRES_COORDS _pres.x1, _pres.y1, _pres.x2, _pres.y2
 #macro mBUTTON_CENTER mean(_button.x1, _button.x2), mean(_button.y1, _button.y2)
+#macro mACTIVE_COORDS _activeButton.x1, _activeButton.y1, _activeButton.x2, _activeButton.y2
+#macro mACTIVE_CENTER mean(_activeButton.x1, _activeButton.x2), mean(_activeButton.y1, _activeButton.y2)
 #macro mBUTTON_CENTER_Y mean(_button.y1, _button.y2)
 #macro mHEADER_CENTER_X mean(_trackHeader.x1, _trackHeader.x2)
 #macro mPRES_CENTER mean(_pres.x1, _pres.x2), mean(_pres.y1, _pres.y2)

@@ -10,7 +10,8 @@ for (var i = 0; i < ds_list_size(mBATTLE.reg_party); ++i) {
 			trackname : _attacker.choiceTrack,
 			level : _attacker.choiceWep,
 			target : _attacker.choiceTarget,
-			damage : real(ds_grid_get(mWEP.wTracks[? _attacker.choiceTrack], _attacker.choiceWep, 1))
+			damage : real(ds_grid_get(mWEP.wTracks[? _attacker.choiceTrack], _attacker.choiceWep, wep_properties.strength)),
+			factor : real(ds_grid_get(mWEP.wTracks[? _attacker.choiceTrack], _attacker.choiceWep, wep_properties.factor))
 		}
 	}
 	else _choices[i] = script_execute(asset_get_index("act_" + _attacker.nextAction), _attacker);

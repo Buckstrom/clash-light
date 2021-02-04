@@ -9,8 +9,11 @@ if (isHovering) {
 	}
 }
 if (debug_textEntryActive) {
-	if (keyboard_check_pressed(vk_enter)) {
-		level = real(string_digits(keyboard_string));
+	if (keyboard_check_pressed(vk_enter) && string_length(keyboard_string) > 0) {
+		var _readLevel = string_digits(keyboard_string);
+		if (_readLevel != "") {
+			level = real(_readLevel);
+		}
 		isExe = (string_pos("x", string_lower(keyboard_string)) != 0);
 		var _checkAtk = (string_pos("a", string_lower(keyboard_string)))
 		var _checkDef = (string_pos("d", string_lower(keyboard_string)))

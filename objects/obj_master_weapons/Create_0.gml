@@ -1,5 +1,6 @@
 #macro mWEP obj_master_weapons
 
+global.use_sprites = true;
 //Register all possible party member weapons - Default
 wTracks = ds_map_create();
 trackNames = ds_list_create();
@@ -11,6 +12,15 @@ while(!file_text_eoln(_tracksFile)) {
 	++_n;
 }
 file_text_close(_tracksFile)
+
+enum wep_properties {
+	name,
+	strength,
+	accuracy,
+	capacity,
+	target,
+	factor
+}
 
 //Register all possible debuffs - Default
 debuffNames = ds_list_create();
@@ -47,4 +57,6 @@ for (var i = 0; i < ds_list_size(trackNames); ++i) {
 }
 
 //Finish init
+gpu_set_tex_filter(false)
 room_goto_next()
+editSprite = -1

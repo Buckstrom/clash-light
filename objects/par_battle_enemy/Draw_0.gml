@@ -33,14 +33,14 @@ switch (specialty) {
 	break;
 }
 _tagText += "\n" + given_name;
-draw_text_ext(x, y - (appear_height / 2), _tagText, font_get_size(fnt_blocks) * 1.5, view_wport[0])
+draw_text_outlined_ext(x, y - (appear_height / 2), _tagText, font_get_size(fnt_blocks) * 1.5, view_wport[0])
 //draw enemy health
 draw_set_valign(fa_top)
 var _showHP = string(currentHP) + " / " + string(maxHP)
 if (currentHP < prevHP) {
 	_showHP += "\nDamage: " + string(prevHP - currentHP);
 }
-draw_text_ext(x, y + (appear_height * (1/2)), _showHP, font_get_size(fnt_blocks) * 2, appear_width * 1.5)
+draw_text_outlined_ext(x, y + (appear_height * (1/2)), _showHP, font_get_size(fnt_blocks) * 2, appear_width * 1.5)
 //draw healthbar
 draw_healthbar(x - (appear_width / 2), y + (appear_height * (4/5)) - 6 + 1, x + (appear_width / 2), y + (appear_height * (4/5)) + 6 + 1, currentHP / maxHP * 100, c_grey, c_red, c_lime, 0, true, true)
 //draw debuff list in order
@@ -56,13 +56,13 @@ for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 		//_debuffList += mWEP.debuffNames[| i]
 		var _checkDebuff = mWEP.debuffNames[| i]
 		//draw debuff sprite
-		draw_sprite(asset_get_index("ico_" + mWEP.debuffNames[| i]), 0, x + (appear_width / 2) + 12, y - (appear_height / 2) + 14 + (_n * 24))
+		draw_sprite_outlined(asset_get_index("ico_" + mWEP.debuffNames[| i]), 0, x + (appear_width / 2) + 12, y - (appear_height / 2) + 14 + (_n * 24), 1)
 		//draw_line_width(x + (appear_width / 2) + 22, y - (appear_height / 2) + (_n * 24), x + (appear_width / 2) + 22, y - (appear_height / 2) + (_n * 24) + 24, 2);
 		//draw debuff properties
 		draw_set_halign(fa_left);
 		draw_set_color(c_aqua);
 		draw_set_valign(fa_middle)
-		draw_text(x + (appear_width / 2) + 28, y - (appear_height / 2) + 20 + (_n * 24), string(debuffs[? _checkDebuff][debuff_properties.duration]))
+		draw_text_outlined(x + (appear_width / 2) + 28, y - (appear_height / 2) + 14 + (_n * 24), string(debuffs[? _checkDebuff][debuff_properties.duration]))
 		//draw debuff factor
 		var _drawFactor = false;
 		switch (_checkDebuff) {
@@ -77,10 +77,10 @@ for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 		}
 		if (_drawFactor != false) {
 			draw_set_halign(fa_right);
-			if (isHovering) {
-				draw_set_color(merge_color(draw_get_color, c_black, 0.5));
-			}
-			draw_text(x + (appear_width / 2), y - (appear_height / 2) + 8 + (_n * 24), _drawFactor);
+			//if (isHovering) {
+			//	draw_set_color(merge_color(draw_get_color, c_black, 0.5));
+			//}
+			draw_text_outlined(x + (appear_width / 2), y - (appear_height / 2) + 14 + (_n * 24), _drawFactor);
 		}
 		++_n
 		/*if (mWEP.debuffNames[| i] == "lured") {
@@ -116,7 +116,7 @@ for (var i = 0; i < ds_list_size(damageValuesIn); ++i) {
 	draw_set_halign(fa_center)
 	draw_set_valign(fa_middle)
 	if (damageValuesIn[| i] > 0) {
-		draw_text(x, _damageLine, "-" + string(damageValuesIn[| i]));
+		draw_text_outlined(x, _damageLine, "-" + string(damageValuesIn[| i]));
 	}
 	_damageLine += (font_get_size(fnt_blocks) * 1.125);
 }

@@ -99,6 +99,7 @@ function resetCombo(enemy) {
 function calcCombo() {
 	var _row = ds_list_size(mBATTLE.reg_enemy);
 	var _trackChange = false;
+	++tracks_stacked;
 	switch (ds_priority_size(attackQueue)) {
 		case 0:
 		_trackChange = true;
@@ -141,20 +142,14 @@ function calcCombo() {
 				}
 				ds_map_delete(_enemy.debuffs, "lured")
 			}
-			//reset per-track damage intake
-			resetCombo(_enemy);
-			comboScaled[i] = comboBase;
-			//prepare enemy clear sequence if dead
-			if (!(_enemy.currentHP > 0) && !mBATTLE.clearDead) {
-				mBATTLE.clearDead = true;
-			}
 		}
 		//distribute lowest instance of combo damage to all enemies that did not take combo damage (SOS combo carryover)
 		if (_comboDamage) {
 			var _i = 0;
+			var _checkCarryover = false;
 			repeat (_row) {
 				var _enemy = mBATTLE.reg_enemy[| _i];
-				var _checkCarryover = !(_enemy.comboCount > 1) || _checkCarryover;
+				_checkCarryover = !(_enemy.comboCount > 1) || _checkCarryover;
 				if (_checkCarryover) {
 					break;
 				}
@@ -191,6 +186,10 @@ function calcCombo() {
 					repeat (_row) {
 						var _carryoverEnemy = mBATTLE.reg_enemy[| _e];
 						var _carryoverCompare = _carryoverEnemy.damageValuesIn[| damageOrder + _offset]
+						var _carryoverDamaged = (_carryoverEnemy.comboCount > 0)
+						if (!_carryoverDamaged) {
+							continue;
+						}
 						if (is_undefined(_carryoverCompare)) {
 							_carryoverCompare = 0
 						}
@@ -212,6 +211,18 @@ function calcCombo() {
 		if (_knockbackDamage) {
 			++damageOrder;
 		}
+		//reset per-track damage intake
+		var _e = 0;
+		repeat (_row) {
+			var _enemy = mBATTLE.reg_enemy[| _e++]
+			resetCombo(_enemy);
+			comboScaled[i] = comboBase;
+			//prepare enemy clear sequence if dead
+			if (!(_enemy.currentHP > 0) && !mBATTLE.clearDead) {
+				mBATTLE.clearDead = true;
+			}
+		}
+		tracks_stacked = 0;
 	}
 }
 function set_debuff_stacking(target,debuffname,stacks) {

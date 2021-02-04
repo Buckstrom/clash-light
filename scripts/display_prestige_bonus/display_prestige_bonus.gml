@@ -30,9 +30,6 @@ function display_prestige_bonus(track, damage){
 		case "drop":
 		_bonus = "5% Combo Dmg"
 		break;
-		case "squirt":
-		_bonus = "Soak Adjacent"
-		break;
 	}
 	if (_bonus != "") {
 		return "(+" + string(_bonus) + ")";
@@ -49,10 +46,18 @@ function display_zap_factor(mem, damage) {
 	}
 	var _i = 0;
 	repeat (_amount) {
-		_output += string(damage * (_base - (_falloff * _i++)))
+		_output += string(ceil(damage * (_base - (_falloff * _i++))))
 		if (_i < _amount) {
 			_output += " + "
 		}
 	}
+	return _output;
+}
+function display_squirt_soak(mem, soakturns) {
+	var _output = string(soakturns);
+	if check_for_prestige(mem, "squirt") {
+		_output += " + 1"
+	}
+	_output += " Rounds"
 	return _output;
 }

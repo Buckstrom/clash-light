@@ -1,3 +1,5 @@
+var _active = false;
+var _useSprites = global.use_sprites
 for (var t = 0; t < row_amount; ++t) {
 	var _readTrack = mWEP.trackNames[| t]
 	//set track header
@@ -29,6 +31,14 @@ for (var t = 0; t < row_amount; ++t) {
 		//set button color
 		var _buttonColor = merge_color(c_blue, _trackColor, 0.5)
 		var _trackLength = ds_grid_width(viewing_mem.inventory[? _readTrack])
+		switch (check_for_prestige(viewing_mem, _readTrack)) {
+			case true:
+			var _presButton = 1;
+			break;
+			case false:
+			var _presButton = 0;
+			break
+		}
 		for (var i = 0; i < _trackLength; ++i){
 			//draw each weapon, quantity, and availability
 			var _button = {
@@ -42,21 +52,15 @@ for (var t = 0; t < row_amount; ++t) {
 			draw_set_color(c_white)
 			draw_set_valign(fa_middle)
 			draw_set_halign(fa_center)
+			var _textColor = c_white;
+			var _textOutline = c_black;
 			//check for mouse hover
 			if (i == hovering_column && t == hovering_row) {
-				//modify button look
-				//draw_roundrect(mBUTTON_COORDS, false)
-				draw_sprite_ext(spr_button_wep,2, mBUTTON_CENTER, 1,1, 0, c_white, 1)
-				var _textColor = c_black
-				var _textOutline = c_white
-				//var _text = string_upper(string_copy(_readTrack, 0, 3)) + string(i + 1)
-				//change current hover weapon
-				/*if (currentWep != i || currentTrack != _readTrack) {
-					currentWep = i;
-					currentTrack = _readTrack;
-					wepString = ds_grid_get(mWEP.wTracks[? currentTrack], currentWep, 0);
-				}
-				hoveringWep = true;*/
+				var _active = true;
+				var _activeTrack = _readTrack;
+				var _activeButton = _button;
+				var _activePres = _presButton;
+				var _activeColor = _trackColor
 			}
 			//draw normal button
 			else {
@@ -75,35 +79,40 @@ for (var t = 0; t < row_amount; ++t) {
 					//var _buttonAlpha = 0.5
 					var _buttonTint = c_white
 				}
-				switch (check_for_prestige(viewing_mem, _readTrack)) {
-					case true:
-					var _presButton = 1;
-					break;
-					case false:
-					var _presButton = 0;
-					break
-				}
 				draw_sprite_ext(spr_button_wep, _presButton, mBUTTON_CENTER, 1,1, 0, _buttonTint, _buttonAlpha)
-				var _textColor = c_white;
-				var _textOutline = c_black;
+				var _buttonScale = 1;
 				//var _text = string(i + 1)
-			}
-			switch (use_sprites) {
-				case false:
-				//if (/*(i == hovering_column || t == hovering_row) &&*/
-				//is_highlighting_weapon()) {
-					var _text = /*string_upper(string_copy(_readTrack, 0, 3)) + */"Lv. " + string(i + 1)
-					draw_text_outlined(mBUTTON_CENTER, _textOutline, _textColor, _text)
-				//}
-				/*else {
-					var _text = string(i + 1)
-				}
-				draw_set_font(fnt_blocks)
-				draw_text_outlined(mBUTTON_CENTER, _textOutline, _textColor, _text)*/
-				break;
+				switch (_useSprites) {
+					case false:
+					//if (/*(i == hovering_column || t == hovering_row) &&*/
+					//is_highlighting_weapon()) {
+						var _text = /*string_upper(string_copy(_readTrack, 0, 3)) + */"Lv. " + string(i + 1)
+						draw_text_outlined(mBUTTON_CENTER, _text, _textOutline, _textColor)
+					//}
+					/*else {
+						var _text = string(i + 1)
+					}
+					draw_set_font(fnt_blocks)
+					draw_text_outlined(mBUTTON_CENTER, _textOutline, _textColor, _text)*/
+					break;
 			
-				case true:
-				break;
+					case true:
+					var _assetName = "spr_" + _readTrack + "_ttcc"
+					var _spriteAsset = asset_get_index(_assetName)
+					var _validSprite = false;
+					if (_spriteAsset > -1) {
+						if (sprite_get_number(_spriteAsset) > i) {
+							_validSprite = true;
+							var _spriteSize = sprite_get_height(_spriteAsset);
+							draw_sprite_outlined_ext(_spriteAsset, i, mBUTTON_CENTER, (button_height / _spriteSize) * _buttonScale, (button_height / _spriteSize) * _buttonScale, 0, c_white, 1, 1)
+						}
+					}
+					if (!_validSprite) {
+						var _text = /*string_upper(string_copy(_readTrack, 0, 3)) + */"Lv. " + string(i + 1)
+						draw_text_outlined(mBUTTON_CENTER, _text, _textOutline, _textColor)
+					}
+					break;
+				}
 			}
 			//var _weapon = ds_grid_get(mWEP.wTracks[? _readTrack], i, 0);
 			if (!debug_ignoreQuantities) {
@@ -111,72 +120,6 @@ for (var t = 0; t < row_amount; ++t) {
 				draw_set_font(fnt_mini)
 				draw_text(_button.x2, _button.y2 - (font_get_size(fnt_mini) / 2), ds_grid_get(viewing_mem.inventory[? _readTrack], i, 0));
 			}
-		}
-		//draw track descriptor
-		if (is_highlighting_weapon() && hovering_row = t) {
-			var _descBackDown = {
-				x1 : x - (row_length * (button_width / 2)) - (button_width / 2),
-				y1 : y + ((row_amount + 2) * (button_height / 2)) - (button_height / 2) + ((button_height * -1)) + 1,
-				x2 : x - (row_length * (button_width / 2)) + (button_width + ((row_length - 1) * button_width)) - 1 + (button_width / 2),
-				y2 : y + ((row_amount + 2) * (button_height / 2)) + (button_height / 2) + ((button_height * -1)),
-			}
-			var _descBack = {
-				x1 : x - (row_length * (button_width / 2)) - (button_width / 2),
-				y1 : y - (row_amount * (button_height / 2)) - (button_height / 2) + ((button_height * -1)) + 1,
-				x2 : x - (row_length * (button_width / 2)) + (button_width + ((row_length - 1) * button_width)) - 1 + (button_width / 2),
-				y2 : y - (row_amount * (button_height / 2)) + (button_height / 2) + ((button_height * -1)),
-			}
-			if (viewing_mem.invPres[? _readTrack]) {
-				_text = "Prestige "
-			}
-			else {
-				_text = "";
-			}
-			_text += string_ucfirst(_readTrack) + " Level " + string(hovering_column + 1);
-			var _overPanelWidth = font_get_size(fnt_blocks) * 20
-			draw_set_alpha(1);
-			draw_set_color(_trackColor)
-			draw_rectangle(mHEADER_CENTER_X - (_overPanelWidth / 3), _descBackDown.y1 + 2, mHEADER_CENTER_X + (_overPanelWidth / 3), _descBackDown.y1 + 4, false);
-			_textColor = c_white;
-			_textOutline = c_black;
-			draw_text_outlined(mHEADER_CENTER_X, mean(_descBackDown.y1,_descBackDown.y2), _textOutline, _textColor, _text)
-			//draw top header
-			draw_set_alpha(0.5)
-			draw_set_color(_trackColor)
-			draw_rectangle(_descBack.x1,_descBack.y1,_descBack.x2,_descBack.y2, false);
-			//draw wep details
-			draw_set_alpha(1)
-			var _wepDetails = mWEP.wTracks[? _readTrack]
-			var _wepText = _wepDetails[# hovering_column, 0] +
-			" | "
-			var _wepDamage = real(_wepDetails[# hovering_column, 1])
-			if (_readTrack == "zap") {
-				_wepText += display_zap_factor(viewing_mem, _wepDamage);
-			}
-			else {
-				_wepText += string(_wepDamage);
-			}
-			if (check_for_prestige(viewing_mem, _readTrack)) {
-				_wepText += display_prestige_bonus(_readTrack, _wepDamage)
-			}
-			switch (_readTrack) {
-				case "lure":
-				_wepText += " Turns"
-				break;
-				default:
-				_wepText += " Damage"
-				break;
-			}
-			switch (_wepDetails[# hovering_column, 4]) {
-				case -2:
-				_wepText += " | Target All"
-				break;
-				default:
-				_wepText += " | Target Single"
-				break;
-			}
-			draw_set_color(_trackColor)
-			draw_text_outlined(mHEADER_CENTER_X, mean(_descBack.y1,_descBack.y2), _textOutline, _textColor, _wepText)
 		}
 	}
 		//draw empty track
@@ -254,12 +197,12 @@ if (debug_modifyTracks) {
 			var _textColor = c_white;
 			var _textOutline = c_black;
 		}
-		switch (use_sprites) {
+		switch (_useSprites) {
 			case false:
 			//if (/*(i == hovering_column || t == hovering_row) &&*/
 			//is_highlighting_weapon()) {
 				var _text = _actions[| m]
-				draw_text_outlined(mBUTTON_CENTER, _textOutline, _textColor, _text)
+				draw_text_outlined(mBUTTON_CENTER, _text, _textOutline, _textColor)
 			//}
 			/*else {
 				var _text = string(i + 1)
@@ -269,9 +212,111 @@ if (debug_modifyTracks) {
 			break;
 			
 			case true:
+			var _text = _actions[| m]
+			draw_text_outlined(mBUTTON_CENTER, _text, _textOutline, _textColor)
 			break;
 		}
 	}
+}
+//draw track descriptor
+if (_active) {
+	var _descBackDown = {
+		x1 : x - (row_length * (button_width / 2)) - (button_width / 2),
+		y1 : y + ((row_amount + 2) * (button_height / 2)) - (button_height / 2) + ((button_height * -1)) + 1,
+		x2 : x - (row_length * (button_width / 2)) + (button_width + ((row_length - 1) * button_width)) - 1 + (button_width / 2),
+		y2 : y + ((row_amount + 2) * (button_height / 2)) + (button_height / 2) + ((button_height * -1)),
+	}
+	var _descBack = {
+		x1 : x - (row_length * (button_width / 2)) - (button_width / 2),
+		y1 : y - (row_amount * (button_height / 2)) - (button_height / 2) + ((button_height * -1)) + 1,
+		x2 : x - (row_length * (button_width / 2)) + (button_width + ((row_length - 1) * button_width)) - 1 + (button_width / 2),
+		y2 : y - (row_amount * (button_height / 2)) + (button_height / 2) + ((button_height * -1)),
+	}
+	if (viewing_mem.invPres[? _activeTrack]) {
+		_text = "Prestige "
+	}
+	else {
+		_text = "";
+	}
+	_text += string_ucfirst(_activeTrack) + " Level " + string(hovering_column + 1);
+	var _overPanelWidth = font_get_size(fnt_blocks) * 20
+	draw_set_alpha(1);
+	draw_set_color(_activeColor)
+	draw_rectangle(mHEADER_CENTER_X - (_overPanelWidth / 3), _descBackDown.y1 + 2, mHEADER_CENTER_X + (_overPanelWidth / 3), _descBackDown.y1 + 4, false);
+	_textColor = c_white;
+	_textOutline = c_black;
+	draw_text_outlined(mHEADER_CENTER_X, mean(_descBackDown.y1,_descBackDown.y2), _text, _textOutline, _textColor)
+	//draw top header
+	draw_set_alpha(0.5)
+	draw_set_color(_activeColor)
+	draw_roundrect(_descBack.x1,_descBack.y1,_descBack.x2,_descBack.y2, false);
+	//draw active button in front (before desc text)
+	_buttonScale = 4/3;
+	draw_sprite_ext(spr_button_wep, _activePres + 2, mACTIVE_CENTER, _buttonScale, _buttonScale, 0, _activeColor, 1)
+	var _textColor = c_black
+	var _textOutline = _activeColor
+	switch (_useSprites) {
+		case false:
+		var _text = "Lv. " + string(hovering_column + 1)
+		draw_text_outlined(mACTIVE_CENTER, _text, _textOutline, _textColor)
+		break;
+		case true:
+		var _assetName = "spr_" + hovering_trackName + "_ttcc"
+		var _spriteAsset = asset_get_index(_assetName)
+		var _validSprite = false;
+		if (_spriteAsset > -1) {
+			if (sprite_get_number(_spriteAsset) > hovering_column) {
+				_validSprite = true;
+				var _spriteSize = sprite_get_height(_spriteAsset);
+				draw_sprite_outlined_ext(_spriteAsset, hovering_column, mACTIVE_CENTER, (button_height / _spriteSize) * (_buttonScale * 2), (button_height / _spriteSize) * (_buttonScale * 2), 0, c_white, 1, _spriteSize / button_height)
+			}
+		}
+		if (!_validSprite) {
+			var _text = "Lv. " + string(hovering_column + 1)
+			draw_text_outlined(mACTIVE_CENTER, _text, _textOutline, _textColor)
+		}
+		break;
+	}
+	//draw wep details
+	draw_set_alpha(1)
+	var _textColor = c_white
+	var _textOutline = c_black
+	var _wepDetails = mWEP.wTracks[? _activeTrack]
+	var _wepText = _wepDetails[# hovering_column, 0] +
+	" | "
+	var _wepDamage = real(_wepDetails[# hovering_column, 1])
+	if (_activeTrack == "zap") {
+		_wepText += display_zap_factor(viewing_mem, _wepDamage);
+	}
+	else {
+		_wepText += string(_wepDamage);
+	}
+	if (check_for_prestige(viewing_mem, _activeTrack)) {
+		_wepText += display_prestige_bonus(_activeTrack, _wepDamage)
+	}
+	switch (_activeTrack) {
+		case "lure":
+		_wepText += " Turns"
+		break;
+		default:
+		_wepText += " Damage"
+		break;
+		case "squirt":
+		var _wepSoak = real(_wepDetails[# hovering_column, 5]);
+		_wepText += " Damage | ";
+		_wepText += display_squirt_soak(viewing_mem, _wepSoak)
+		break;
+	}
+	switch (_wepDetails[# hovering_column, 4]) {
+		case -2:
+		_wepText += " | Target All"
+		break;
+		default:
+		_wepText += " | Target Single"
+		break;
+	}
+	draw_set_color(_activeColor)
+	draw_text_outlined(mHEADER_CENTER_X, mean(_descBack.y1,_descBack.y2), _wepText, _textOutline, _textColor)
 }
 //draw all prestige toggle button
 var _pres = {

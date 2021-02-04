@@ -1,7 +1,7 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function initialize_track(member,trackname,pres,level){
-	if (!level) { 
+	if !(level > -1) { 
 		level = ds_grid_width(mWEP.wTracks[? trackname]);
 	}
 	else {

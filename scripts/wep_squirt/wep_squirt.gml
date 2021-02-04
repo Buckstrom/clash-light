@@ -8,14 +8,14 @@ function wep_squirt(attack){
 	//prestige check
 	switch (check_for_prestige(attack.attacker, attack.trackname)) {
 		default:
-		debuff_target(attack, "soaked", 1, 0, 0)
+		debuff_target(attack, "soaked", attack.factor, 0, 0)
 		break;
 		//Lv 1 Prestige: Soak adjacent enemies (if possible)
 		case 1:
 		for (var i = attack.target - 1; i <= attack.target + 1; ++i) {
 			var _soakTarget = mBATTLE.reg_enemy[| i];
 			if (!is_undefined(_soakTarget)) {
-				debuff_single(i, "soaked", 2, 0, 0)
+				debuff_single(i, "soaked", attack.factor + 1, 0, 0)
 			}
 		}
 		break;

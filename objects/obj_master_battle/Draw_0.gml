@@ -2,13 +2,6 @@
 var _totalTracks = ds_list_size(mWEP.wTracks)
 // GUI
 draw_set_color(c_purple)
-/*var _enemyBack = {
-	x1 : 0,
-	y1 : 0,
-	x2 : view_wport[0],
-	y2 : ((view_hport[0]) * wepgui_margin)  - (_totalTracks * (button_height / 2)) - (button_height / 2) - 1
-}
-draw_rectangle(mENEMYBACK_COORDS, false)*/
 switch (currentState) {
 	case battleState.intro:
 	draw_set_color(c_black)
