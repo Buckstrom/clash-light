@@ -3,10 +3,11 @@
 function refresh_enemy_row(){
 	for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
 		var _enemy = mBATTLE.reg_enemy[| i]
-		if (_enemy) {
+		if (_enemy > -1) {
 			_enemy.reg_space = i;
 			_enemy.x = view_wport[0] * ((1.5 + i) / (2 + ds_list_size(mBATTLE.reg_enemy)))
 			_enemy.y = 92;
+			_enemy.turnHP = _enemy.prevHP
 			_enemy.prevHP = _enemy.currentHP;
 		}
 	}

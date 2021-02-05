@@ -182,7 +182,7 @@ switch (currentState) {
 	draw_set_color(c_white)
 	draw_set_font(useFont)
 	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Player Turn Over\nPress M1 to Continue")
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Player Turn Over\nPress M1 to Continue\nPress M2 to Retry this Set")
 	break;
 }
 // debug

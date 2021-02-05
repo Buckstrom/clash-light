@@ -1,6 +1,6 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function set_enemy_hp(enemy, fill){
+function set_enemy_hp(enemy, fill, newhp){
 	var _newMax;
 	switch (enemy.specialty) {
 		case specialty_types.atk:
@@ -18,6 +18,11 @@ function set_enemy_hp(enemy, fill){
 	}
 	enemy.maxHP = _newMax;
 	if (fill) {
-		enemy.currentHP = _newMax;
+		if (newhp > -1) {
+			enemy.currentHP = newhp;
+		}
+		else {
+			enemy.currentHP = _newMax;
+		}
 	}
 }

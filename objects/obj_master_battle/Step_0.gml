@@ -59,8 +59,9 @@ if (mouse_check_button_pressed(mb_left)) {
 		break;
 		case battleState.e_attack:
 		currentState = battleState.p_choice;
-		clear_target_row();
+		refresh_enemy_row()
 		clear_damage_display_row();
+		clear_target_row();
 		decrement_debuffs_row();
 		break;
 	}
@@ -82,7 +83,21 @@ if (mouse_check_button_pressed(mb_right)) {
 		case battleState.p_target:
 		clear_target(mCURRENT_MEM);
 		currentState = battleState.p_choice
-		break
+		break;
+		case battleState.e_attack:
+		refresh_enemy_row()
+		var _e = 0;
+		repeat (ds_list_size(reg_enemy)) {
+			set_enemy_hp(reg_enemy[| _e], true, reg_enemy[| _e].turnHP);
+			++_e;
+		}
+		clearDead = false;
+		currentState = battleState.p_choice;
+		clear_damage_display_row();
+		clear_target_row();
+		decrement_debuffs_row();
+		refresh_enemy_row()
+		break;
 	}
 }
 
