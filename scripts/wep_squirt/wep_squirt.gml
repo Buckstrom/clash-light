@@ -13,7 +13,7 @@ function wep_squirt(attack){
 		//Lv 1 Prestige: Soak adjacent enemies (if possible)
 		case 1:
 		for (var i = attack.target - 1; i <= attack.target + 1; ++i) {
-			var _soakTarget = mBATTLE.reg_enemy[| i];
+			var _soakTarget = targetRow[| i];
 			if (!is_undefined(_soakTarget)) {
 				debuff_single(i, "soaked", attack.factor + 1, 0, 0)
 			}

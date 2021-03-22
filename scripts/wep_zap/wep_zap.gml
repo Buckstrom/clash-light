@@ -16,7 +16,7 @@ function wep_zap_base(attack){
 	var _originTarget = attack.target
 	var _currentTarget = attack.target
 	var _baseDamage = attack.damage;
-	var _enemy = ds_list_find_value(mBATTLE.reg_enemy, attack.target)
+	var _enemy = ds_list_find_value(targetRow, attack.target)
 	if (is_undefined(_enemy)) {
 		return;
 	}
@@ -40,11 +40,11 @@ function wep_zap_base(attack){
 			//find next jump candidate within range to the left
 			for (var i = _currentTarget - 1; i >= _currentTarget - _jumpSpaces; --i) {
 				//go to next check if target is out of range, original target, or already jumped
-				if (i < 0 || i >= ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
+				if (i < 0 || i >= ds_list_size(targetRow) || i = _originTarget) {
 					continue;
 				}
 				//check if soaked and for jumped debuff
-				_enemy = ds_list_find_value(mBATTLE.reg_enemy, i)
+				_enemy = ds_list_find_value(targetRow, i)
 				if (!(_enemy.currentHP > 0) || !ds_map_exists(_enemy.debuffs, "soaked") || ds_map_exists(_enemy.debuffs, "jumped")) {
 					continue;
 				}
@@ -58,11 +58,11 @@ function wep_zap_base(attack){
 			if (!_jumpValid) {
 				for (var i = _currentTarget + 1; i <= _currentTarget + _jumpSpaces; ++i) {
 					//go to next check if target is out of range, original target, or already jumped
-					if (i < 0 || i >= ds_list_size(mBATTLE.reg_enemy) || i = _originTarget) {
+					if (i < 0 || i >= ds_list_size(targetRow) || i = _originTarget) {
 						continue;
 					}
 					//check if alive, soaked and for jumped debuff
-					_enemy = ds_list_find_value(mBATTLE.reg_enemy, i)
+					_enemy = ds_list_find_value(targetRow, i)
 					if (!(_enemy.currentHP > 0) || !ds_map_exists(_enemy.debuffs, "soaked") || ds_map_exists(_enemy.debuffs, "jumped")) {
 						continue;
 					}

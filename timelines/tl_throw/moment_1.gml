@@ -1,3 +1,5 @@
 wep_throw(activeAttack)
-calcCombo()
-alarm[0] += attackAnimTime;
+if (!checkTrackEnd()) {
+	alarm[0] += attackAnimTime;
+	timeline_running = false;
+}

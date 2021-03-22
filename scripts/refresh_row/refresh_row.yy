@@ -6,7 +6,7 @@
     "path": "folders/Scripts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "refresh_enemy_row",
+  "name": "refresh_row",
   "tags": [],
   "resourceType": "GMScript",
 }

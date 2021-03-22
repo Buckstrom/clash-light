@@ -13,12 +13,12 @@ function decrement_debuffs(target){
 		_seekDebuff = ds_map_find_next(_enemy.debuffs, _seekDebuff)
 	} 
 }
-function decrement_debuffs_row(){
+function decrement_debuffs_row(reg){
 	var _e = 0;
 	repeat(ds_list_size(mBATTLE.reg_enemy)) {
 		if (instance_exists(mBATTLE.reg_enemy[| _e])) {
 			decrement_debuffs(_e);
-			set_debuff_stacking(_e++, "lured", false)
+			set_debuff_stacking(_e++, "lured", false, reg)
 		}
 	}
 }

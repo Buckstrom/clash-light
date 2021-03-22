@@ -1,7 +1,7 @@
 {
   "option_windows_display_name": "ClashLight",
   "option_windows_executable_name": "${project_name}.exe",
-  "option_windows_version": "0.0.0.4",
+  "option_windows_version": "0.0.1.3",
   "option_windows_company_info": "BKST",
   "option_windows_product_info": "ClashLight",
   "option_windows_copyright_info": "",
@@ -12,7 +12,7 @@
   "option_windows_splash_screen": "${base_options_dir}/windows/splash/splash.png",
   "option_windows_use_splash": false,
   "option_windows_start_fullscreen": false,
-  "option_windows_allow_fullscreen_switching": false,
+  "option_windows_allow_fullscreen_switching": true,
   "option_windows_interpolate_pixels": false,
   "option_windows_vsync": false,
   "option_windows_resize_window": false,

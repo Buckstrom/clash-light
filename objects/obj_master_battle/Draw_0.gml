@@ -2,6 +2,7 @@
 var _totalTracks = ds_list_size(mWEP.wTracks)
 // GUI
 draw_set_color(c_purple)
+var _text = "";
 switch (currentState) {
 	case battleState.intro:
 	draw_set_color(c_black)
@@ -167,23 +168,24 @@ switch (currentState) {
 	hoveringAct = false;
 	break;
 	case battleState.p_target:
-	draw_set_color(c_white)
-	draw_set_font(useFont)
-	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Choose A Target\nPress M2 to Cancel")
+	_text = "Choose A Target\nPress M2 to Cancel"
 	break;
 	case battleState.p_attack:
-	draw_set_color(c_white)
-	draw_set_font(useFont)
-	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Attack Phase\nPlease wait...")
+	_text = "Player Attack Phase"
 	break;
 	case battleState.e_attack:
+	_text = "Enemy Attack Phase"
+	break;
+	case battleState.e_finish:
+	_text = "Press M1 to Continue\nPress M2 to Retry this Set"
+	break;
+}
+if (_text != "") {
 	draw_set_color(c_white)
 	draw_set_font(useFont)
 	draw_set_valign(fa_middle)
-	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), "Player Turn Over\nPress M1 to Continue\nPress M2 to Retry this Set")
-	break;
+	//draw_text(view_wport[0] / 2, view_hport[0] * (3 / 4), _text)
+	draw_text(view_wport[0] / 2, view_hport[0] * (3 / 5), _text)
 }
 // debug
 /*draw_set_valign(fa_top)
@@ -196,6 +198,6 @@ draw_set_color(c_white)
 draw_set_font(useFont)
 draw_set_halign(fa_right)
 draw_set_valign(fa_bottom)
-draw_text(view_wport[0], view_hport[0], "https://github.com/\nBuckstrom/clash-light\nCheck README\nfor controls.\nHave fun! :-)\n~King Pants")
+draw_text(view_wport[0], view_hport[0], "https://github.com/\nBuckstrom/clash-light\nHave fun! :-)\n~King Pants")
 draw_set_halign(fa_left)
 //draw_text(0, view_hport[0],wepString);

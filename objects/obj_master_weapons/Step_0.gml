@@ -6,3 +6,11 @@ else {
 	editSprite.label = "Use Sprites"
 	editSprite.editValue = global.use_sprites
 }
+if (editBattleTick > -1) {
+	global.battle_tick = editBattleTick.editValue
+}
+else {
+	editBattleTick = instance_create_layer(96, 400, self.layer, button_adjust_integer)
+	editBattleTick.label = "Action Time"
+	editBattleTick.editValue = global.battle_tick
+}

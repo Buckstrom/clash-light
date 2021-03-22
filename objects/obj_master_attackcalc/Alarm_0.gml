@@ -15,19 +15,20 @@ else {
 	switch (activeAttack.target) {
 		case -2:
 		var _e = 0;
-		repeat (ds_list_size(mBATTLE.reg_enemy)) {
-			if (mBATTLE.reg_enemy[| _e++].currentHP > 0) {
+		repeat (ds_list_size(targetRow)) {
+			if (targetRow[| _e++].currentHP > 0) {
 				_targetAlive = true;
 			}
 		}
 		break;
 		default:
-		if (mBATTLE.reg_enemy[| activeAttack.target].currentHP > 0) {
+		if (targetRow[| activeAttack.target].currentHP > 0) {
 			_targetAlive = true;
 		}
 		break;
 	}
 	if (_targetAlive && timeline_exists(mWEP.trackTimelines[? activeAttack.trackname])) {
+		mBATTLE.current_partymem = activeAttack.source
 		timeline_index = mWEP.trackTimelines[? activeAttack.trackname];
 		timeline_position = 0;
 		timeline_running = true;

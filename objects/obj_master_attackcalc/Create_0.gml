@@ -2,11 +2,12 @@
 
 var _choices;
 //register weapon choices unordered
-for (var i = 0; i < ds_list_size(mBATTLE.reg_party); ++i) {
-	var _attacker = mBATTLE.reg_party[| i]
+for (var i = 0; i < ds_list_size(sourceRow); ++i) {
+	var _attacker = sourceRow[| i]
 	if (_attacker.nextAction == "ATTACK") {
 		_choices[i] = {
 			attacker : _attacker,
+			source : i,
 			trackname : _attacker.choiceTrack,
 			level : _attacker.choiceWep,
 			target : _attacker.choiceTarget,
@@ -29,12 +30,12 @@ for (var i = 0; i < _trackAmount; ++i) {
 		}
 		if (_choices[c].trackname = _attackTrack) {
 			//priority number: track, weapon, order
-			ds_priority_add(attackQueue, _choices[c], (i*1000) + (_choices[c].level * 10) + (ds_list_size(mBATTLE.reg_party) - c));
+			ds_priority_add(attackQueue, _choices[c], (i*1000) + (_choices[c].level * 10) + (ds_list_size(sourceRow) - c));
 			++attackCount;
 		}
 	}
 }
 //begin attack sequence
-comboScaled = array_create(ds_list_size(mBATTLE.reg_enemy), comboBase)
+comboScaled = array_create(ds_list_size(targetRow), comboBase)
 alarm[0] = battleTick
 activeAttack = ds_priority_find_min(attackQueue)

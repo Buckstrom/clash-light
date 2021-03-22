@@ -8,7 +8,8 @@ function is_highlighting_weapon(){
 }
 function is_highlighting_misc(){
 	var _actionAmt = ds_list_size(viewing_mem.miscInv)
+	var _hoveringAction = row_amount - hovering_row
 	return (hovering_misc &&
-			hovering_row > -1 &&
-			hovering_row < _actionAmt);
+			hovering_row > (row_amount - (_actionAmt + 1)) &&
+			hovering_row < row_amount);
 }

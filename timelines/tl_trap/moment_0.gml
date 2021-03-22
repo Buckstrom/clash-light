@@ -1,1 +1,1 @@
-anim_fx(fx_ray, activeAttack.attacker, mBATTLE.reg_enemy[| activeAttack.target], c_red, attackAnimTime)
+anim_fx(fx_ray, activeAttack.attacker, targetRow[| activeAttack.target], c_red, attackAnimTime)

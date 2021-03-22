@@ -1,0 +1,1 @@
+//timeline_position = timeline_max_moment(timeline_index)

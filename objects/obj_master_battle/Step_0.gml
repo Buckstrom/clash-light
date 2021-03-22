@@ -57,12 +57,12 @@ if (mouse_check_button_pressed(mb_left)) {
 			battle_check_ready();
 		}
 		break;
-		case battleState.e_attack:
+		case battleState.e_finish:
 		currentState = battleState.p_choice;
-		refresh_enemy_row()
-		clear_damage_display_row();
+		refresh_row(mBATTLE.reg_enemy, entity_type.enemy)
+		clear_damage_display_row(reg_enemy);
 		clear_target_row();
-		decrement_debuffs_row();
+		decrement_debuffs_row(reg_enemy);
 		break;
 	}
 }
@@ -84,8 +84,8 @@ if (mouse_check_button_pressed(mb_right)) {
 		clear_target(mCURRENT_MEM);
 		currentState = battleState.p_choice
 		break;
-		case battleState.e_attack:
-		refresh_enemy_row()
+		case battleState.e_finish:
+		refresh_row(mBATTLE.reg_enemy, entity_type.enemy)
 		var _e = 0;
 		repeat (ds_list_size(reg_enemy)) {
 			set_enemy_hp(reg_enemy[| _e], true, reg_enemy[| _e].turnHP);
@@ -93,10 +93,11 @@ if (mouse_check_button_pressed(mb_right)) {
 		}
 		clearDead = false;
 		currentState = battleState.p_choice;
-		clear_damage_display_row();
+		clear_damage_display_row(reg_enemy);
 		clear_target_row();
-		decrement_debuffs_row();
-		refresh_enemy_row()
+		decrement_debuffs_row(reg_enemy);
+		//revert_debuffs_row();
+		refresh_row(mBATTLE.reg_enemy, entity_type.enemy)
 		break;
 	}
 }
@@ -109,8 +110,8 @@ switch (currentState) {
 	case battleState.p_choice:
 	//clear dead enemies
 	if (clearDead) {
-		remove_dead_enemy_row();
-		refresh_enemy_row();
+		remove_dead_row(mBATTLE.reg_enemy);
+		refresh_row(mBATTLE.reg_enemy, entity_type.enemy);
 		clearDead = false;
 	}
 	//instantiate weapon gui
@@ -127,6 +128,10 @@ switch (currentState) {
 		inst_calc = instance_create_layer(0,0,self.layer,obj_master_attackcalc)
 	}
 	break;
+	case battleState.e_attack:
+	if (!enemyWillAttack) {
+		currentState = battleState.e_finish
+	}
 	default:
 	break;
 }

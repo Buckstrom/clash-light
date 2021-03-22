@@ -7,4 +7,4 @@ switch(activeAttack.target) {
 	break;
 }
 
-anim_fx(_useAnim, activeAttack.attacker, mBATTLE.reg_enemy[| activeAttack.target], c_white, attackAnimTime)
+anim_fx(_useAnim, activeAttack.attacker, targetRow[| activeAttack.target], c_white, attackAnimTime)

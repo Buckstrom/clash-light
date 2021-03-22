@@ -169,7 +169,9 @@ for (var t = 0; t < row_amount; ++t) {
 //draw misc action
 if (debug_modifyTracks) {
 	var _actions = viewing_mem.miscInv;
-	for (var m = 0; m < ds_list_size(_actions); ++m){
+	for (var i = 0; i < ds_list_size(_actions); ++i){
+		//draw from the bottom
+		var m = row_amount - (i + 1);
 		//draw each weapon, quantity, and availability
 		var _button = {
 			x1 : x - (row_length * (button_width / 2)) + ((row_length + 0.5) * button_width),
@@ -201,7 +203,7 @@ if (debug_modifyTracks) {
 			case false:
 			//if (/*(i == hovering_column || t == hovering_row) &&*/
 			//is_highlighting_weapon()) {
-				var _text = _actions[| m]
+				var _text = _actions[| i]
 				draw_text_outlined(mBUTTON_CENTER, _text, _textOutline, _textColor)
 			//}
 			/*else {
@@ -212,7 +214,7 @@ if (debug_modifyTracks) {
 			break;
 			
 			case true:
-			var _text = _actions[| m]
+			var _text = _actions[| i]
 			draw_text_outlined(mBUTTON_CENTER, _text, _textOutline, _textColor)
 			break;
 		}
@@ -292,7 +294,7 @@ if (_active) {
 		_wepText += string(_wepDamage);
 	}
 	if (check_for_prestige(viewing_mem, _activeTrack)) {
-		_wepText += display_prestige_bonus(_activeTrack, _wepDamage)
+		_wepText += display_prestige_bonus(_activeTrack, _wepDamage, mBATTLE.reg_enemy)
 	}
 	switch (_activeTrack) {
 		case "lure":
@@ -307,12 +309,12 @@ if (_active) {
 		_wepText += display_squirt_soak(viewing_mem, _wepSoak)
 		break;
 	}
-	switch (_wepDetails[# hovering_column, 4]) {
-		case -2:
-		_wepText += " | Target All"
+	switch (_wepDetails[# hovering_column, wep_properties.target]) {
+		case 1:
+		_wepText += " | Affects All"
 		break;
 		default:
-		_wepText += " | Target Single"
+		_wepText += " | Affects One"
 		break;
 	}
 	draw_set_color(_activeColor)

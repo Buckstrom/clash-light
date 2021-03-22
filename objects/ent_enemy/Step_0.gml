@@ -29,7 +29,7 @@ if (debug_textEntryActive) {
 			}
 		}
 		set_enemy_hp(self, true);
-		refresh_enemy_row()
+		refresh_row(mBATTLE.reg_enemy, entity_type.enemy)
 		debug_textEntryActive = false;
 		//instance_activate_all();
 	}

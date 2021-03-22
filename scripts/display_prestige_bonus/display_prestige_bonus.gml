@@ -1,13 +1,13 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function display_prestige_bonus(track, damage){
+function display_prestige_bonus(track, damage, reg){
 	var _bonus = "";
-	var _row = ds_list_size(mBATTLE.reg_enemy);
+	var _rowsize = ds_list_size(reg);
 	var _enemyLevelLow = infinity;
 	var _enemyLevelHigh = 0;
 	var _e = 0;
-	repeat (_row) {
-		var _checkLevel = mBATTLE.reg_enemy[| _e++].level;
+	repeat (_rowsize) {
+		var _checkLevel = reg[| _e++].level;
 		if (_enemyLevelLow > _checkLevel) {
 			_enemyLevelLow = _checkLevel
 		}
@@ -55,8 +55,9 @@ function display_zap_factor(mem, damage) {
 }
 function display_squirt_soak(mem, soakturns) {
 	var _output = string(soakturns);
-	if check_for_prestige(mem, "squirt") {
-		_output += " + 1"
+	var _pres = check_for_prestige(mem, "squirt")
+	if _pres {
+		_output += "(+1)"
 	}
 	_output += " Rounds"
 	return _output;

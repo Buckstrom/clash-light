@@ -105,7 +105,8 @@ if (mouse_check_button_pressed(mb_left)) {
 	//check if action is highlighted
 	if (is_highlighting_misc()) {
 		//set party member to action
-		_currentMem.nextAction = _currentMem.miscInv[| hovering_row];
+		var _hoveringAction = row_amount - (hovering_row + 1)
+		_currentMem.nextAction = _currentMem.miscInv[| _hoveringAction];
 		_destroy = battle_check_ready();
 	}
 	//check if weapon is highlighted

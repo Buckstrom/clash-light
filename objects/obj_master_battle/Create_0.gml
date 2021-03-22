@@ -20,6 +20,7 @@ enum battleState {
 	p_target,
 	p_attack,
 	e_attack,
+	e_finish
 }
 
 currentState = battleState.intro;
@@ -43,6 +44,11 @@ current_partymem = 0;
 hovering_partymem = -1;
 hovering_enemy = -1;
 
+enum entity_type {
+	party,
+	enemy
+}
+
 //temp: spawn battle participants with inventories
 //Register pm names
 var _tempNames = array_create(temp_AmtParty, "Void")
@@ -61,7 +67,7 @@ _tempTracks[3] = "lure";
 //temp party filler
 for (i = 0; i < temp_AmtParty; ++i) {
 	//create party member
-	var _addToParty = instance_create_layer(view_wport[0] * ((2 + i) / (3 + temp_AmtParty)), view_hport[0] - 64, "Instances", par_battle_partymem)
+	var _addToParty = instance_create_layer(0,0, "Instances", ent_partymem)
 	//assign name and place
 	_addToParty.given_name = _tempNames[i];
 	_addToParty.reg_space = i;
@@ -82,17 +88,18 @@ for (i = 0; i < temp_AmtParty; ++i) {
 	//register party member
 	reg_party[| i] = _addToParty;
 }
+refresh_row(reg_party, entity_type.party);
 //temp enemy filler
 /*for (i = 0; i < temp_AmtEnemy; ++i) {
 	//create enemy
-	var _addEnemy = instance_create_layer(0, 92, "Instances", par_battle_enemy)
+	var _addEnemy = instance_create_layer(0, 92, "Instances", ent_enemy)
 	//assign name and place
 	_addEnemy.given_name = "Suit";
 	_addEnemy.reg_space = i;
 	//register enemy
 	reg_enemy[| i] = _addEnemy;
 }
-refresh_enemy_row()
+refresh_row(mBATTLE.reg_enemy, entity_type.enemy)
 //temp tracks
 /*
 initialize_track(reg_party[| 0], "drop", 7)

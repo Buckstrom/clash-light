@@ -14,14 +14,14 @@ function wep_lure(attack){
 	//stack on unlured
 	switch (attack.target) {
 		default:
-		if (!ds_map_exists(mBATTLE.reg_enemy[| attack.target].debuffs, "lured")) {
+		if (!ds_map_exists(targetRow[| attack.target].debuffs, "lured")) {
 			debuff_target(attack, "lured", 0, 0, _kbScaled, true);
 		}
 		break;
 		case -2:
 		var _e = 0;
-		repeat (ds_list_size(mBATTLE.reg_enemy)) {
-			if (!ds_map_exists(mBATTLE.reg_enemy[| _e++].debuffs, "lured")) {
+		repeat (ds_list_size(targetRow)) {
+			if (!ds_map_exists(targetRow[| _e++].debuffs, "lured")) {
 				debuff_target(attack, "lured", 0, 0, _kbScaled, true);
 			}
 		}

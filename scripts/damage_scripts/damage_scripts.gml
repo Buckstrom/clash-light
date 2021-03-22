@@ -21,7 +21,7 @@ function debuff_target(attack, debuffname, duration, factor, misc, stacks){
 	}
 }
 function damage_single(attack, combofactor){
-	var _enemy = ds_list_find_value(mBATTLE.reg_enemy, attack.target)
+	var _enemy = ds_list_find_value(targetRow, attack.target)
 	if (is_undefined(_enemy)) {
 		return;
 	}
@@ -30,9 +30,9 @@ function damage_single(attack, combofactor){
 	++_enemy.comboCount;
 }
 function damage_all(attack, combofactor){
-	var _row = ds_list_size(mBATTLE.reg_enemy);
+	var _row = ds_list_size(targetRow);
 	for (var i = 0; i < _row; ++i) {
-		var _enemy = mBATTLE.reg_enemy[| i]
+		var _enemy = targetRow[| i]
 		_enemy.comboMultiplier = combofactor;
 		takeDamage(_enemy, attack.damage);
 		++_enemy.comboCount;
@@ -43,7 +43,7 @@ function debuff_single(target, debuffname, duration, factor, misc, stacks){
 		stacks = false;
 	}
 	var _properties = array_debuff_properties(duration, factor, misc, stacks)
-	var _enemy = ds_list_find_value(mBATTLE.reg_enemy, target)
+	var _enemy = ds_list_find_value(targetRow, target)
 	if (is_undefined(_enemy)) {
 		return;
 	}
@@ -63,7 +63,7 @@ function debuff_single(target, debuffname, duration, factor, misc, stacks){
 }
 function debuff_all(debuffname, duration, factor, misc, stacks){
 	var _e = 0;
-	var _row = ds_list_size(mBATTLE.reg_enemy)
+	var _row = ds_list_size(targetRow)
 	repeat (_row) {
 		debuff_single(_e++, debuffname, duration, factor, misc, stacks);
 	}
@@ -96,23 +96,27 @@ function resetCombo(enemy) {
 	enemy.comboMultiplier = 0;
 	enemy.comboCount = 0;
 }
-function calcCombo() {
-	var _row = ds_list_size(mBATTLE.reg_enemy);
-	var _trackChange = false;
-	++tracks_stacked;
+function checkTrackEnd() {
+	var _trackEnd = false;
 	switch (ds_priority_size(attackQueue)) {
 		case 0:
-		_trackChange = true;
+		_trackEnd = true;
 		break;
 		default:
-		_trackChange = activeAttack.trackname != ds_priority_find_min(attackQueue).trackname;
+		_trackEnd = activeAttack.trackname != ds_priority_find_min(attackQueue).trackname;
 		break
 	}
+	return _trackEnd
+}
+function calcCombo() {
+	var _row = ds_list_size(targetRow);
+	var _trackChange = checkTrackEnd();
+	++tracks_stacked;
 	if (_trackChange) {
 		var _comboDamage = false;
 		var _knockbackDamage = false;
 		for (var i = 0; i < _row; ++i) {
-			var _enemy = mBATTLE.reg_enemy[| i]
+			var _enemy = targetRow[| i]
 			//clear double traps
 			if (ds_queue_size(_enemy.trapQueue) > 1) {
 				ds_queue_clear(_enemy.trapQueue);
@@ -148,7 +152,7 @@ function calcCombo() {
 			var _i = 0;
 			var _checkCarryover = false;
 			repeat (_row) {
-				var _enemy = mBATTLE.reg_enemy[| _i];
+				var _enemy = targetRow[| _i];
 				_checkCarryover = !(_enemy.comboCount > 1) || _checkCarryover;
 				if (_checkCarryover) {
 					break;
@@ -161,7 +165,7 @@ function calcCombo() {
 				var _carryoverCheck = array_create(_row)
 				//check if it is the lowest instance of combo damage
 				repeat (_row) {
-					var _carryoverEnemy = mBATTLE.reg_enemy[| _e];
+					var _carryoverEnemy = targetRow[| _e];
 					_carryoverCheck[_e] = (_carryoverEnemy.damageValuesIn[| damageOrder + _offset]);
 					if is_undefined(_carryoverCheck[_e]) {
 						_carryoverCheck[_e] = 0;
@@ -184,7 +188,7 @@ function calcCombo() {
 				if (_carryoverDamage) {
 					var _e = 0;
 					repeat (_row) {
-						var _carryoverEnemy = mBATTLE.reg_enemy[| _e];
+						var _carryoverEnemy = targetRow[| _e];
 						var _carryoverCompare = _carryoverEnemy.damageValuesIn[| damageOrder + _offset]
 						var _carryoverDamaged = (_carryoverEnemy.comboCount > 0)
 						if (!_carryoverDamaged) {
@@ -214,7 +218,7 @@ function calcCombo() {
 		//reset per-track damage intake
 		var _e = 0;
 		repeat (_row) {
-			var _enemy = mBATTLE.reg_enemy[| _e++]
+			var _enemy = targetRow[| _e++]
 			resetCombo(_enemy);
 			comboScaled[i] = comboBase;
 			//prepare enemy clear sequence if dead
@@ -225,8 +229,8 @@ function calcCombo() {
 		tracks_stacked = 0;
 	}
 }
-function set_debuff_stacking(target,debuffname,stacks) {
-	var _enemy = mBATTLE.reg_enemy[| target];
+function set_debuff_stacking(target,debuffname,stacks,reg) {
+	var _enemy = reg[| target];
 	if (ds_map_exists(_enemy.debuffs, debuffname)) {
 		_enemy.debuffs[? debuffname][debuff_properties.stacks] = stacks;
 	}

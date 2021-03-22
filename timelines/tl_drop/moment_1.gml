@@ -1,3 +1,5 @@
 wep_drop(activeAttack)
-calcCombo()
-alarm[0] += attackAnimTime;
+if (!checkTrackEnd()) {
+	calcCombo()
+	alarm[0] += attackAnimTime;
+}

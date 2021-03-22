@@ -4,7 +4,7 @@ function anim_fx(fx, source, enemy, color, time){
 	var _inst = instance_create_layer(0,0,self.layer,fx)
 	_inst.fxStart = source;
 	if (is_undefined(enemy)) {
-		_inst.fxDest = instance_create_layer(source.x, mBATTLE.reg_enemy[| 0].y, _inst.layer, dummy_aimspot)
+		_inst.fxDest = instance_create_layer(source.x, targetRow[| 0].y, _inst.layer, dummy_aimspot)
 	}
 	else {
 		_inst.fxDest = enemy;

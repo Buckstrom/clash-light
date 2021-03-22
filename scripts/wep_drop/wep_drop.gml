@@ -4,7 +4,7 @@ function wep_drop(attack){
 	useCombo = true;
 	var _wep = function(_attack,_target){
 		_attack.target = _target;
-		var _enemy = ds_list_find_value(mBATTLE.reg_enemy, _target)
+		var _enemy = ds_list_find_value(targetRow, _target)
 		//Cannot damage lured enemies
 		if (ds_map_exists(_enemy.debuffs, "lured")) {
 			return;
@@ -29,7 +29,7 @@ function wep_drop(attack){
 	switch (attack.target) {
 		case -2:
 		var _e = 0;
-		repeat (ds_list_size(mBATTLE.reg_enemy)) {
+		repeat (ds_list_size(targetRow)) {
 			_wep(attack,_e);
 			++_e;
 		}

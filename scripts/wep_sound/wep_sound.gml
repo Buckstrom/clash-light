@@ -9,8 +9,8 @@ function wep_sound(attack){
 		//Lv 1 Prestige: Highest Level Enemy Level * 0.5 bonus damage
 		case 1:
 		var _highestLv = 0;
-		for (var i = 0; i < ds_list_size(mBATTLE.reg_enemy); ++i) {
-			var _checkLv = mBATTLE.reg_enemy[| i].level;
+		for (var i = 0; i < ds_list_size(targetRow); ++i) {
+			var _checkLv = targetRow[| i].level;
 			if (_highestLv < _checkLv) {
 				_highestLv = _checkLv;
 			}
