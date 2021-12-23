@@ -11,6 +11,7 @@ else */switch (isHovering) {
 	draw_rectangle(mAPPEAR_COORDS, false)
 	break;
 	case false:
+	draw_sprite(sprite_index, 0, x, y)
 	draw_rectangle_width(mAPPEAR_COORDS, 2)
 	break;
 }
@@ -68,7 +69,11 @@ for (var i = 0; i < ds_list_size(mWEP.debuffNames); ++i) {
 		switch (_checkDebuff) {
 			case "lured":
 			draw_set_color(mWEP.trackColors[? "lure"])
-			_drawFactor = "+" + string(100 * debuffs[? _checkDebuff][debuff_properties.factor]) + "%"
+			_drawFactor = "+" + string(floor(100 * debuffs[? _checkDebuff][debuff_properties.factor])) + "%"
+			break;
+			case "marked":
+			draw_set_color(mWEP.trackColors[? "throw"])
+			_drawFactor = "+" + string(floor(100 * debuffs[? _checkDebuff][debuff_properties.factor])) + "%"
 			break;
 			case "jumped":
 			draw_set_color(mWEP.trackColors[? "zap"])

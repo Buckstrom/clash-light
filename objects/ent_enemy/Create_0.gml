@@ -1,9 +1,9 @@
-#macro mAPPEAR_COORDS x - (appear_width / 2), y - (appear_height / 2), x + (appear_width / 2), y + (appear_height / 2)
 
 reg_space = 0;
 comboCount = 0;
 damageSum = 0;
 comboMultiplier = 0;
+sprite_index = cog_crosshair;
 trapQueue = ds_queue_create();
 damageValuesIn = ds_list_create();
 damageColorsIn = ds_list_create();

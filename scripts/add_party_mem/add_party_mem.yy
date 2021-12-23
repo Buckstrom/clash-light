@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "wep_scripts",
-    "path": "folders/Scripts/wep_scripts.yy",
+    "name": "Scripts",
+    "path": "folders/Scripts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "display_prestige_bonus",
+  "name": "add_party_mem",
   "tags": [],
   "resourceType": "GMScript",
 }

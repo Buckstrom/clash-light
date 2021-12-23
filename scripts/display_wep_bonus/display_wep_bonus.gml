@@ -1,7 +1,8 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function display_prestige_bonus(track, damage, reg){
-	var _bonus = "";
+function display_wep_bonus(track, damage, prestige, reg){
+	var _bonusBase = "";
+	var _bonusPres = "";
 	var _rowsize = ds_list_size(reg);
 	var _enemyLevelLow = infinity;
 	var _enemyLevelHigh = 0;
@@ -15,26 +16,35 @@ function display_prestige_bonus(track, damage, reg){
 			_enemyLevelHigh = _checkLevel
 		}
 	}
+	//Trap healthy bonus
 	switch (track) {
 		default:
 		break;
-		case "throw":
-		_bonus = ceil(damage * 0.15);
-		break;
-		case "sound":
-		_bonus = ceil(_enemyLevelHigh * 0.5);
-		break;
 		case "trap":
-		_bonus = string(ceil(_enemyLevelLow * 3)) + " to " + string(ceil(_enemyLevelHigh * 3));
-		break;
-		case "drop":
-		_bonus = "5% Combo Dmg"
+		var _trapBonus = ceil(damage * 1.3)
+		_bonusBase = "/" + string(damage * 1.2);
 		break;
 	}
-	if (_bonus != "") {
-		return "(+" + string(_bonus) + ")";
+	if (prestige) {
+		switch (track) {
+			default:
+			break;
+			case "sound":
+			_bonusPres = "+" + string(ceil(_enemyLevelHigh * 0.5));
+			break;
+			case "trap":
+			_bonusPres = string(_trapBonus) + "/" + string(ceil(_trapBonus * 1.2));
+			break;
+			case "drop":
+			_bonusPres = "+5% Combo Dmg"
+			break;
+		}
+		if (_bonusPres != "") {
+			_bonusPres = "(" + string(_bonusPres) + ")";
+		}
 	}
-	return "";
+	var _output = _bonusBase + _bonusPres;
+	return _output;
 }
 function display_zap_factor(mem, damage) {
 	var _base = 3;

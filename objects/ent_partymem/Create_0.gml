@@ -1,11 +1,10 @@
-#macro mAPPEAR_COORDS x - (appear_width / 2), y - (appear_height / 2), x + (appear_width / 2), y + (appear_height / 2)
 
 inventory = ds_map_create();
 invPres = ds_map_create();
 
 miscInv = ds_list_create();
 ds_list_add(miscInv, "Pass")
-ds_list_add(miscInv, "Rain")
+//ds_list_add(miscInv, "Rain")
 
 reg_space = 0;
 /* inventory:

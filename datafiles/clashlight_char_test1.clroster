@@ -1,10 +1,10 @@
-King,Camp,Clumsy,Win,Syphon,Chomp,Melancholic
+King Pants,Camp,Clumsy,Win,Syphon,Chomp,Melancholic
 default,default,default,default,default,default,default
-134,134,134,134,134,34,1
-0,0,1,0,0,p8,p8
-p8,0,0,0,0,0,p8
-8,0,0,p8,p8,p8,p8
+137,134,134,134,134,34,1
+8,0,1,0,0,p8,p8
+P8,0,0,0,0,0,p8
+0,0,0,p8,p8,p8,p8
 p8,p8,0,0,p8,0,p8
 p8,p8,0,0,p8,p8,p8
-p8,0,0,0,0,8,p8
-8,0,p8,0,p8,8,p8
+8,0,0,0,0,8,p8
+p8,0,p8,0,p8,8,p8

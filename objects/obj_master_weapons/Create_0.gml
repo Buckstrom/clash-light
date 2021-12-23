@@ -1,7 +1,7 @@
 #macro mWEP obj_master_weapons
 
 global.use_sprites = true;
-global.battle_tick = 30;
+global.battle_tick = 15;
 //Register all possible party member weapons - Default
 wTracks = ds_map_create();
 trackNames = ds_list_create();

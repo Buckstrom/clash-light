@@ -11,7 +11,14 @@ if ((spawnToFill || triggerSpawn) && ds_list_size(mBATTLE.reg_enemy) < rowSize) 
 	_addEnemy.given_name = "Suit";
 	_addEnemy.level = irandom_range(lvRangeMin, lvRangeMax)
 	_addEnemy.isExe = (allowExe && random(1) < rateExe);
-	_addEnemy.specialty = (allowSpc && irandom_range(specialty_types.none, specialty_types.def));
+	switch (allowSpc) {
+		case true:
+		_addEnemy.specialty = irandom_range(specialty_types.none, specialty_types.def);
+		break;
+		case false:
+		_addEnemy.specialty = specialty_types.none;
+		break;
+	}
 	set_enemy_hp(_addEnemy, true);
 	//append enemy row with new enemy
 	ds_list_insert(mBATTLE.reg_enemy, 0, _addEnemy);

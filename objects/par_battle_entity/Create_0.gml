@@ -5,7 +5,7 @@ invPres = ds_map_create();
 
 miscInv = ds_list_create();
 ds_list_add(miscInv, "Pass")
-ds_list_add(miscInv, "Rain")
+//ds_list_add(miscInv, "Rain")
 
 reg_space = 0;
 /* inventory:

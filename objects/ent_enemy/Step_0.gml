@@ -29,6 +29,12 @@ if (debug_textEntryActive) {
 			}
 		}
 		set_enemy_hp(self, true);
+		if keyboard_string = "LIT" {
+			given_name = "Litigator"
+			level = 40
+			sprite_index = gator
+			set_enemy_hp(self, true, 4250)
+		}
 		refresh_row(mBATTLE.reg_enemy, entity_type.enemy)
 		debug_textEntryActive = false;
 		//instance_activate_all();

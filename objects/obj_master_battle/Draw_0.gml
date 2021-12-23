@@ -38,6 +38,7 @@ switch (currentState) {
 		}
 		//change track color
 		var _trackColor = mWEP.trackColors[? _readTrack]
+		if !instance_exists(_viewingMem) break;
 		if ds_map_exists(_viewingMem.inventory, _readTrack) {
 			/*//draw track header
 			var _trackHeader = {
@@ -198,6 +199,6 @@ draw_set_color(c_white)
 draw_set_font(useFont)
 draw_set_halign(fa_right)
 draw_set_valign(fa_bottom)
-draw_text(view_wport[0], view_hport[0], "https://github.com/\nBuckstrom/clash-light\nHave fun! :-)\n~King Pants")
+draw_text(view_wport[0], view_hport[0], "Shift-click an enemy to\ntype in a level\nHave fun! :-)\n~King Pants")
 draw_set_halign(fa_left)
 //draw_text(0, view_hport[0],wepString);

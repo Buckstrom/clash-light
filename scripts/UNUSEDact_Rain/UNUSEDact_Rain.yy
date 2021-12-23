@@ -6,7 +6,7 @@
     "path": "folders/Scripts/act_scripts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "act_Rain",
+  "name": "UNUSEDact_Rain",
   "tags": [],
   "resourceType": "GMScript",
 }

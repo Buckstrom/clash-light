@@ -77,6 +77,10 @@ function array_debuff_properties(duration, factor, misc, stacks) {
 	return _properties;
 }
 function takeDamage(enemy, damage) {
+	if (ds_map_exists(enemy.debuffs, "marked")) {
+		var _markFactor = enemy.debuffs[? "marked"][debuff_properties.factor]
+		damage = ceil(damage * _markFactor);
+	}
 	enemy.currentHP -= damage;
 	enemy.damageSum += damage;
 	ds_list_set(enemy.damageValuesIn, damageOrder, damage);
@@ -124,7 +128,7 @@ function calcCombo() {
 			//deal combo damage
 			if (useCombo) {
 				if (_enemy.comboCount > 1) {
-					_comboDamage = ceil((_enemy.damageSum) * comboScaled[i])
+					_comboDamage = floor((_enemy.damageSum) * comboScaled[i])
 					_enemy.currentHP -= _comboDamage
 					var _offset = 1;
 					ds_list_set(_enemy.damageValuesIn, damageOrder + _offset, _comboDamage);

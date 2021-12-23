@@ -16,7 +16,9 @@ function set_enemy_hp(enemy, fill, newhp){
 	if (enemy.isExe) {
 		_newMax = ceil(_newMax * 1.5);
 	}
-	enemy.maxHP = _newMax;
+	if (newhp > -1) {
+		_newMax = newhp
+	}
 	if (fill) {
 		if (newhp > -1) {
 			enemy.currentHP = newhp;
@@ -25,4 +27,5 @@ function set_enemy_hp(enemy, fill, newhp){
 			enemy.currentHP = _newMax;
 		}
 	}
+	enemy.maxHP = _newMax;
 }

@@ -10,18 +10,16 @@ function wep_drop(attack){
 			return;
 		}
 		//Add to combo multiplier
-		if (_enemy.comboCount > 0) {
+		if (_enemy.comboCount > 1) {
 			comboScaled[_target] += 0.10;
 		}
 		//Prestige benefits
 		switch (check_for_prestige(_attack.attacker, _attack.trackname)) {
 			default:
 			break;
-			//Lv 1 Prestige: +5% combo damage scaling (accuracy can wait :-) )
+			//Lv 1 Prestige: +10% combo damage scaling (accuracy can wait :-) )
 			case 1:
-			if (_enemy.comboCount > 0) {
-				comboScaled[_target] += 0.05;
-			}
+			comboScaled[_target] += 0.10;
 			break;
 		}
 		damage_target(_attack, comboScaled[_target])

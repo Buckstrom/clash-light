@@ -1,5 +1,6 @@
 var _active = false;
 var _useSprites = global.use_sprites
+if !instance_exists(viewing_mem) return;
 for (var t = 0; t < row_amount; ++t) {
 	var _readTrack = mWEP.trackNames[| t]
 	//set track header
@@ -284,6 +285,7 @@ if (_active) {
 	var _textColor = c_white
 	var _textOutline = c_black
 	var _wepDetails = mWEP.wTracks[? _activeTrack]
+	var _wepPrestige = check_for_prestige(viewing_mem, _activeTrack)
 	var _wepText = _wepDetails[# hovering_column, 0] +
 	" | "
 	var _wepDamage = real(_wepDetails[# hovering_column, 1])
@@ -293,9 +295,7 @@ if (_active) {
 	else {
 		_wepText += string(_wepDamage);
 	}
-	if (check_for_prestige(viewing_mem, _activeTrack)) {
-		_wepText += display_prestige_bonus(_activeTrack, _wepDamage, mBATTLE.reg_enemy)
-	}
+	_wepText += display_wep_bonus(_activeTrack, _wepDamage, _wepPrestige, mBATTLE.reg_enemy)
 	switch (_activeTrack) {
 		case "lure":
 		_wepText += " Turns"
